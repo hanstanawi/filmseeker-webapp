@@ -1,13 +1,13 @@
-import data from '@/data/mockData';
+/* eslint-disable no-shadow */
+import data from '../../data/mockData';
 
 const state = {
   movies: [],
 };
 
 const mutations = {
-  SET_MOVIES: (movies) => {
+  SET_MOVIES: (state, movies) => {
     state.movies = movies;
-    return state.movies;
   },
 };
 
@@ -18,7 +18,9 @@ const actions = {
 };
 
 const getters = {
-  movies: () => state.movies,
+  movies(state) {
+    return state.movies;
+  },
 };
 
 export default {

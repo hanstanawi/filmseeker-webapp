@@ -1,4 +1,4 @@
-const data = [
+export default [
   {
     id: 1,
     title: 'Joker',
@@ -49,11 +49,9 @@ const data = [
     year: '2019',
     genre: ['Comedy', 'Drama'],
     cast: ['Roman Griffin Davis', 'Scarlett Johansson'],
-    posterLink: 'https://m.media-amazon.com/images/M/MV5BOTdmNTFjNDEtNzg0My00ZjkxLTg1ZDAtZTdkMDc2ZmFiNWQ1XkEyXkFqcGdeQXVyNTAzNzgwNTg@._V1_SY1000_CR0,0,631,1000_AL_.jpg',
+    posterLink: 'https://m.media-amazon.com/images/M/MV5BZjU0Yzk2MzEtMjAzYy00MzY0LTg2YmItM2RkNzdkY2ZhN2JkXkEyXkFqcGdeQXVyNDg4NjY5OTQ@._V1_SY1000_SX667_AL_.jpg',
     rating: 8.3,
     duration: '119 mins',
     plot: 'A young boy in Hitler\'s army finds out his mother is hiding a Jewish girl in their home.',
   },
 ];
-
-export default data;
