@@ -1,6 +1,6 @@
 <template>
-  <div class="home">
-    <h1>Movies Page</h1>
+  <div class="movies">
+    <h1 class="title grey--text">Movies Page</h1>
     <MovieCard />
   </div>
 </template>
