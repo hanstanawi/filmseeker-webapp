@@ -16,9 +16,14 @@ const routes = [
     component: () => import('../views/Watchlist.vue'),
   },
   {
-    path: '/:id',
+    path: '/movie/:id',
     name: 'MovieDetails',
     component: () => import('../views/MovieDetails.vue'),
+    props: true,
+  },
+  {
+    path: '*',
+    redirect: '/',
   },
 ];
 
