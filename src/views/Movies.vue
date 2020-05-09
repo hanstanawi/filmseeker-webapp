@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 <template>
   <div class="movies">
     <h1 class="title grey--text">Movies Page</h1>
@@ -39,7 +40,8 @@ export default {
   computed: {
     ...mapGetters(['movies']),
     filteredResults() {
-      return this.movies.filter((movie) => movie.title.match(this.searchTerm));
+      // eslint-disable-next-line max-len
+      return this.movies.filter((movie) => movie.title.toLowerCase().match(this.searchTerm.toLowerCase()));
     },
   },
   created() {

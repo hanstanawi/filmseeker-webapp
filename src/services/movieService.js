@@ -15,6 +15,6 @@ export default {
     return apiClient.get(`/discover/movie/?api_key=${API_KEY}&language=${language}&sort_by=${sortBy}&include_adult=false&include_video=false&page=1`);
   },
   getSingleMovie(movieId, language) {
-    return apiClient.get(`movie/${movieId}?api_key=${API_KEY}&language=${language}`);
+    return apiClient.get(`/movie/${movieId}?api_key=${API_KEY}&language=${language}`);
   },
 };

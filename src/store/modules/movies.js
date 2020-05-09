@@ -1,8 +1,9 @@
 /* eslint-disable consistent-return */
 /* eslint-disable no-shadow */
-import movieService from '@/services/movieService';
-// import data from '../../data/mockData';
 
+// I setup a separate module of fetch api service
+// because setting up all the axios methods in one vuex file will get messy
+import movieService from '@/services/movieService';
 
 const state = {
   movies: [],
@@ -30,14 +31,15 @@ const actions = {
       console.log(err);
     }
   },
-  fetchSingleMovie({ commit, getters }, id) {
+  fetchSingleMovie({ commit, state }, id) {
     if (id === state.movie.id) {
       return state.movie;
     }
-    const movie = getters.getMovieById(id);
-    if (movie) {
-      commit('SET_MOVIE', movie);
-    }
+    return movieService.getSingleMovie(id, state.language).then((res) => {
+      commit('SET_MOVIE', res.data);
+      console.log(res.data);
+      return res.data;
+    });
   },
 };
 
