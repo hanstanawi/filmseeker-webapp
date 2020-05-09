@@ -7,11 +7,13 @@
         @click="openDrawer = !openDrawer"
       ></v-app-bar-nav-icon>
       <!-- Logo -->
-      <v-toolbar-title class="grey--text text-uppercase">
+      <router-link tag="button" to="/">
+        <v-toolbar-title class="grey--text text-uppercase">
         <v-icon left>mdi-film</v-icon>
         <span class="font-weight-light">Film</span>
         <span>Seeker</span>
       </v-toolbar-title>
+      </router-link>
       <v-spacer></v-spacer>
       <!-- Nav Items -->
       <v-btn

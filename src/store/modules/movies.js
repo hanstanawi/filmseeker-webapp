@@ -8,8 +8,10 @@ import movieService from '@/services/movieService';
 const state = {
   movies: [],
   movie: {},
+  basePosterURL: 'https://image.tmdb.org/t/p/w500',
   language: 'en-US',
   sortBy: 'popularity.desc',
+  totalResults: 100,
 };
 
 const mutations = {
@@ -40,6 +42,9 @@ const actions = {
       console.log(res.data);
       return res.data;
     });
+  },
+  addMovie({ commit }, movieItem) {
+    commit('ADD_MOVIE', movieItem);
   },
 };
 

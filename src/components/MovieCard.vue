@@ -6,15 +6,19 @@
       </v-responsive>
       <v-card-text class="ma-0">
         <router-link :to="{ name: 'MovieDetails', params: { id: movie.id } }">
-          <div
+          <span
             class="title font-weight-bold grey--text"
-          >{{ movie.title }} ({{ movie.release_date }})</div>
+          >{{ movie.title }} </span>
         </router-link>
+        <span class="subtitle-1">
+          <v-icon>mdi-star</v-icon>
+          {{ movie.vote_average }}
+        </span>
         <div class="grey--text" v-for="genre in movie.genre" :key="genre">{{ genre }}</div>
       </v-card-text>
       <v-row class="justify-center">
         <v-col class="align-center">
-          <v-btn text color="grey">
+          <v-btn text color="grey" @click="addMovie">
             <v-icon>mdi-heart</v-icon>
           </v-btn>
         </v-col>
@@ -33,6 +37,12 @@ export default {
   },
   props: {
     movie: Object,
+  },
+  methods: {
+    addMovie() {
+      console.log(this.movie);
+      this.$store.dispatch('addMovie', this.movie);
+    },
   },
 };
 </script>
