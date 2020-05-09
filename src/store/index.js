@@ -5,9 +5,11 @@ import watchlist from './modules/watchlist';
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   modules: {
     movies,
     watchlist,
   },
 });
+
+export default store;

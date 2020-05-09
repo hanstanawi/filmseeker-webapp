@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Movies from '../views/Movies.vue';
+import store from '../store/index';
+
 
 Vue.use(VueRouter);
 
@@ -8,18 +9,22 @@ const routes = [
   {
     path: '/',
     name: 'Movies',
-    component: Movies,
+    component: () => import(/* webpackChunkName: "movies" */'../views/Movies.vue'),
   },
   {
     path: '/watchlist',
     name: 'Watchlist',
-    component: () => import('../views/Watchlist.vue'),
+    component: () => import(/* webpackChunkName: "watchlist" */'../views/Watchlist.vue'),
   },
   {
     path: '/movie/:id',
     name: 'MovieDetails',
-    component: () => import('../views/MovieDetails.vue'),
+    component: () => import(/* webpackChunkName: "movie-details" */'../views/MovieDetails.vue'),
     props: true,
+    beforeEnter(routeTo, routeFrom, next) {
+      store.dispatch('fetchSingleMovie', routeTo.params.id);
+      next();
+    },
   },
   {
     path: '*',

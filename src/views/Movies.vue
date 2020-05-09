@@ -1,12 +1,16 @@
-
 <template>
   <div class="movies">
     <h1 class="title grey--text">Movies Page</h1>
     <v-container class="my-5">
       <v-row class="justify-center">
-        <v-col cols="12">
-          <v-text-field v-model="searchTerm" label="Search" outlined clearable></v-text-field>
-          <p>{{ searchTerm }}</p>
+        <v-col cols="12" sm="8" md="6"  class="align-center">
+          <v-text-field
+          v-model="searchTerm"
+          label="Search"
+          outlined
+          clearable
+          append-icon="mdi-movie-search"
+          ></v-text-field>
         </v-col>
       </v-row>
       <v-row>
@@ -39,7 +43,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('initMovies');
+    this.$store.dispatch('fetchMovies');
   },
 };
 </script>
