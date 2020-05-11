@@ -26,13 +26,22 @@ const mutations = {
 };
 
 const actions = {
-  async fetchMovies({ commit, state }) {
-    try {
-      const res = await movieService.getMovies(state.params.language, state.params.sortBy);
-      commit('SET_MOVIES', res.data.results);
-    } catch (err) {
-      console.log(err);
+  fetchMovies({ commit, state }) {
+    const pageCount = (state.totalResults / 20) + 1;
+    const responseArray = [];
+    for (let i = 1; i < pageCount; i += 1) {
+      const res = movieService.getMovies(state.params.language, state.params.sortBy, i);
+      responseArray.push(res);
     }
+    Promise.all(responseArray)
+      .then((res) => {
+        const results = [];
+        res.map((item) => item.data.results.forEach((movie) => results.push(movie)));
+        commit('SET_MOVIES', results);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
   fetchSingleMovie({ commit, state }, id) {
     if (id === state.movie.id) {

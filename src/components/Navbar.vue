@@ -7,7 +7,7 @@
         @click="openDrawer = !openDrawer"
       ></v-app-bar-nav-icon>
       <!-- Logo -->
-      <router-link tag="button" class="brand" to="/">
+      <router-link tag="div" class="brand" to="/">
         <v-toolbar-title class="grey--text text-uppercase">
         <v-icon left>mdi-film</v-icon>
         <span class="font-weight-light">Film</span>
@@ -17,19 +17,26 @@
       <v-spacer></v-spacer>
       <!-- Nav Items -->
       <v-toolbar-items class="hidden-xs-only">
-      <v-btn
-      v-for="link in links"
-      :key="link.label"
-      text
-      :to="link.url"
-      class="grey--text">
-      <v-icon left small>{{ link.icon }}</v-icon>
-      <v-badge color="primary"
-      v-if="listLength > 0 && link.label==='Watchlist'"
-      :content="listLength">
-      {{ link.label }}
-      </v-badge>
-      </v-btn>
+        <v-btn
+        text
+        :to="'/'"
+        class="grey--text">
+          <v-icon left small>mdi-movie</v-icon>
+          Movies
+        </v-btn>
+
+        <v-btn
+        text
+        :to="'/watchlist'"
+        class="grey--text">
+        <v-icon left small>mdi-plus</v-icon>
+          <v-badge color="amber"
+          :content="listLength"
+          v-if="listLength">
+          Watchlist
+          </v-badge>
+          <span v-if="!listLength">Watchlist</span>
+        </v-btn>
       </v-toolbar-items>
     </v-app-bar>
     <!-- Navigation Drawer -->
@@ -82,8 +89,7 @@ export default {
 </script>
 
 <style scoped>
-button .brand {
-  border: none;
-  padding: 0;
+.brand {
+  cursor: pointer;
 }
 </style>

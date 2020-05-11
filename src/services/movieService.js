@@ -11,8 +11,8 @@ const apiClient = axios.create({
 });
 
 export default {
-  getMovies(language, sortBy) {
-    return apiClient.get(`/discover/movie/?api_key=${API_KEY}&language=${language}&sort_by=${sortBy}&include_adult=false&include_video=false&page=1`);
+  getMovies(language, sortBy, pageCount) {
+    return apiClient.get(`/discover/movie/?api_key=${API_KEY}&language=${language}&sort_by=${sortBy}&include_adult=false&include_video=false&page=${pageCount}`);
   },
   getSingleMovie(movieId, language) {
     return apiClient.get(`/movie/${movieId}?api_key=${API_KEY}&language=${language}`);

@@ -13,11 +13,11 @@
 
         <v-col cols="12" sm="6" md="8" xl="10">
           <!-- Title  -->
-          <h1 class="display-1 font-weight-bold">{{ movie.title }}</h1>
+          <h1 class="display-1 font-weight-bold">{{ movie.title }} ({{ movieReleaseDate }})</h1>
           <!-- Rating -->
           <p class="title font-weight-medium">
             <span>
-              <v-icon color="yellow">mdi-star</v-icon>
+              <v-icon color="amber">mdi-star</v-icon>
             </span>
           {{ movie.vote_average }}
           </p>
@@ -25,15 +25,16 @@
           <v-row class="my-3 mr-0">
             <v-chip
             class="ma-2 d-flex-inline"
-            color="primary"
+            color="grey lighten-1"
             v-for="genre in movie.genres"
-            :key="genre.id">{{ genre.name }}</v-chip>
+            :key="genre.id">{{ genre.name }}
+            </v-chip>
           </v-row>
           <p>Rating: {{ movie.vote_average }}</p>
           <p>Runtime: {{ movie.runtime }} mins</p>
           <p class="plot">{{ movie.overview }}</p>
           <v-btn text outlined color="grey" @click="addMovie" v-if="!checkRecord">
-            <v-icon color="red" class="mx-1">mdi-heart</v-icon>
+            <v-icon color="black" class="black--text mx-1">mdi-plus</v-icon>
             Add Movie
           </v-btn>
           <v-btn text color="grey" @click="removeMovie" v-else>
@@ -62,6 +63,9 @@ export default {
     checkRecord() {
       const record = this.watchlist.find((movie) => movie.id === this.movie.id);
       return !!record;
+    },
+    movieReleaseDate() {
+      return this.movie.release_date.slice(0, 4);
     },
   },
   methods: {
