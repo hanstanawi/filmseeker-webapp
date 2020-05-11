@@ -2,7 +2,6 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import store from '../store/index';
 
-
 Vue.use(VueRouter);
 
 const routes = [
@@ -22,7 +21,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "movie-details" */'../views/MovieDetails.vue'),
     props: true,
     beforeEnter(routeTo, routeFrom, next) {
-      // Passing props through the params using Route Guards
+      // Passing params as props using Route Guards
       store.dispatch('fetchSingleMovie', routeTo.params.id)
         .then((movie) => {
           // eslint-disable-next-line no-param-reassign

@@ -2,7 +2,7 @@
   <div class="movie-card">
     <v-card text class="text-center ma-1 my-auto mx-auto" max-width="400">
       <v-responsive class="pa-4">
-        <v-img :src="basePosterURL + movie.poster_path" height="300"></v-img>
+        <v-img :src="moviePoster + movie.poster_path" height="300"></v-img>
       </v-responsive>
       <v-card-text class="ma-0">
         <router-link :to="{ name: 'MovieDetails', params: { id: movie.id } }">
@@ -28,15 +28,15 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'MovieCard',
-  data() {
-    return {
-      basePosterURL: 'https://image.tmdb.org/t/p/w500',
-    };
-  },
   props: {
     movie: Object,
+  },
+  computed: {
+    ...mapGetters(['moviePoster']),
   },
   methods: {
     addMovie() {

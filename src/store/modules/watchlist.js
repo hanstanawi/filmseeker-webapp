@@ -14,7 +14,7 @@ const mutations = {
   REMOVE_MOVIE(state, movieItem) {
     const record = state.watchlist.find((movie) => movie.id === movieItem.id);
     if (record) {
-      state.watchlist.splice(state.watchlist.indexOf(record));
+      state.watchlist.splice(state.watchlist.indexOf(record), 1);
     }
   },
 };
