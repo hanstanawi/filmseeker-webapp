@@ -5,7 +5,7 @@
         <!-- Poster -->
         <v-col cols="12" sm="6" md="4" xl="2" class="px-0">
           <v-row justify="center">
-            <img height="400" :src="moviePoster + movie.poster_path" />
+            <v-img contain class="movie-img" :src="moviePoster + movie.poster_path" />
           </v-row>
         </v-col>
 
@@ -30,14 +30,20 @@
             :key="genre.id">{{ genre.name }}
             </v-chip>
           </v-row>
-          <p>Rating: {{ movie.vote_average }}</p>
+          <p>Release Date: {{ movie.release_date }}</p>
           <p>Runtime: {{ movie.runtime }} mins</p>
+          <p>Language:
+            <span v-for="language in movie.spoken_languages" :key="language.name">
+            {{ language.name }}
+            <span v-if="language.length > 0">,</span>
+            </span>
+          </p>
           <p class="plot">{{ movie.overview }}</p>
-          <v-btn text outlined color="grey" @click="addMovie" v-if="!checkRecord">
-            <v-icon color="black" class="black--text mx-1">mdi-plus</v-icon>
+          <v-btn outlined color="black" @click="addMovie" v-if="!checkRecord">
+            <v-icon color="black" class="mx-1">mdi-plus</v-icon>
             Add Movie
           </v-btn>
-          <v-btn text color="grey" @click="removeMovie" v-else>
+          <v-btn outlined color="red" @click="removeMovie" v-else>
             <v-icon color="red" class="mx-1">mdi-delete</v-icon>
             Remove Movie
           </v-btn>
@@ -83,5 +89,10 @@ export default {
 .plot {
   text-align: justify;
   text-justify: inter-word;
+}
+
+.movie-img {
+  min-height: 0;
+  height: 65vh;
 }
 </style>

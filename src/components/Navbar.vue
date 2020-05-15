@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <v-app-bar flat app>
+    <v-app-bar flat app color="grey darken-4">
       <!-- Open Drawer -->
       <v-app-bar-nav-icon
         class="grey--text"
@@ -9,9 +9,7 @@
       <!-- Logo -->
       <router-link tag="div" class="brand" to="/">
         <v-toolbar-title class="grey--text text-uppercase">
-        <v-icon left>mdi-film</v-icon>
-        <span class="font-weight-light">Film</span>
-        <span>Seeker</span>
+        <img height="40" :src="getLogoUrl()" alt="logo" class="pt-3">
       </v-toolbar-title>
       </router-link>
       <v-spacer></v-spacer>
@@ -20,7 +18,7 @@
         <v-btn
         text
         :to="'/'"
-        class="grey--text">
+        class="white--text">
           <v-icon left small>mdi-movie</v-icon>
           Movies
         </v-btn>
@@ -28,7 +26,7 @@
         <v-btn
         text
         :to="'/watchlist'"
-        class="grey--text">
+        class="white--text">
         <v-icon left small>mdi-plus</v-icon>
           <v-badge color="amber"
           :content="listLength"
@@ -40,7 +38,7 @@
       </v-toolbar-items>
     </v-app-bar>
     <!-- Navigation Drawer -->
-    <v-navigation-drawer app color="cyan lighten-1" v-model="openDrawer" class="hidden-md-only">
+    <v-navigation-drawer app color="grey darken-4" v-model="openDrawer" class="hidden-md-only">
       <v-list>
           <v-list-item
             v-for="link in links"
@@ -61,6 +59,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'Navbar',
   data() {
@@ -81,8 +81,12 @@ export default {
     };
   },
   computed: {
-    listLength() {
-      return this.$store.getters.listLength;
+    ...mapGetters(['listLength']),
+  },
+  methods: {
+    getLogoUrl() {
+      // eslint-disable-next-line global-require
+      return require('../assets/logo_white.png');
     },
   },
 };

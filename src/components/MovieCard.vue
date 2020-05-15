@@ -1,12 +1,12 @@
 <template>
   <div class="movie-card">
-    <v-card text class="text-center ma-1 my-auto mx-auto" max-width="400">
+    <v-card flat class="text-center ma-1 my-3 mx-auto card-style" max-width="400">
       <v-responsive class="pa-1">
-        <v-img :src="moviePoster + movie.poster_path" height="350"></v-img>
+        <v-img :src="moviePoster + movie.poster_path" class="movie-img" contain></v-img>
       </v-responsive>
-      <v-card-text class="ma-0">
+      <v-card-text class="ma-0 card-text">
         <router-link class="title" tag="p" :to="{ name: 'MovieDetails', params: { id: movie.id } }">
-          <span
+            <span
             class="title font-weight-bold black--text"
           >{{ movie.title }} ({{ movieReleaseDate }})</span>
         </router-link>
@@ -16,18 +16,6 @@
         </span>
         <div v-for="genre in movie.genre" :key="genre">{{ genre }}</div>
       </v-card-text>
-      <v-card-actions>
-        <v-row class="justify-center">
-        <v-col class="align-center">
-          <v-btn text color="grey" @click="addMovie" v-if="!checkRecord">
-            <v-icon>mdi-plus</v-icon>
-          </v-btn>
-          <v-btn text color="grey" @click="removeMovie" v-else>
-            <v-icon>mdi-delete</v-icon>
-          </v-btn>
-        </v-col>
-      </v-row>
-      </v-card-actions>
     </v-card>
   </div>
 </template>
@@ -72,5 +60,13 @@ cursor: pointer;
 
 p .title:hover {
   text-decoration: underline;
+}
+
+.movie-img {
+  height: 50vh;
+}
+
+.card-style:hover{
+  background-color:#0000;
 }
 </style>
