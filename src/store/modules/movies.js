@@ -5,10 +5,14 @@
 // because setting up all the axios methods in one vuex file will get messy
 import movieService from '@/services/movieService';
 
+
 const state = {
   movies: [],
   movie: {},
   basePosterURL: 'https://image.tmdb.org/t/p/w500',
+  // I store the params in the state, so in the future
+  // it will be easier to apply different search params
+  // for the users to choose
   params: {
     language: 'en-US',
     sortBy: 'vote_average.desc',
@@ -40,6 +44,7 @@ const mutations = {
 };
 
 const actions = {
+  // actions to fetch the 100 movies
   fetchMovies({ commit, state }, loadingBar) {
     if (loadingBar) {
       commit('LOADING');
@@ -59,7 +64,6 @@ const actions = {
       .then((res) => {
         const results = [];
         res.map((item) => item.data.results.forEach((movie) => results.push(movie)));
-        console.log(results);
         commit('SET_MOVIES', results);
       })
       .catch((err) => {
@@ -74,6 +78,8 @@ const actions = {
     if (id === state.movie.id) {
       return state.movie;
     }
+    // this method actually returns a promise, which will be resolved in the route guards
+    // to pass the movie.id as a props for the routes
     return movieService.getSingleMovie(id, state.params.language)
       .then((res) => {
         commit('SET_MOVIE', res.data);

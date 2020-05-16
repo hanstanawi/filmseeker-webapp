@@ -3,6 +3,8 @@ const state = {
   watchlist: [],
 };
 
+// I add the add_movie mutation in here, because
+// I think that the add movie functionality feels like belong to the watchlist section
 const mutations = {
   ADD_MOVIE(state, movieItem) {
     const record = state.watchlist.find((movie) => movie.id === movieItem.id);

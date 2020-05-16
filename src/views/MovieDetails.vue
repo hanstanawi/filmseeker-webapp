@@ -98,6 +98,7 @@ export default {
   },
   computed: {
     ...mapGetters(['watchlist', 'moviePoster', 'loadingMovies', 'errorHandler']),
+    // Checking if the movie is already added, to add the logic of the add/remove buttons
     checkRecord() {
       const record = this.watchlist.find((movie) => movie.id === this.movie.id);
       return !!record;

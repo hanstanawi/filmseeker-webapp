@@ -2,28 +2,28 @@
   <div class="watchlist">
     <v-container class="my-5 pa-5">
     <template v-if="watchlist.length > 0">
-    <h1 class="title">Your Watchlist</h1>
+    <h1 class="title font-weight-bold">Your Watchlist</h1>
 
     <!-- Sort buttons -->
 
      <v-row class="mb-3">
       <v-tooltip top>
         <template v-slot:activator="{ on }">
-          <v-btn small text color="grey" v-on="on" @click="sortAsc('title')">
-            <v-icon left small>mdi-folder</v-icon>
+          <v-btn text color="grey" v-on="on" @click="sortAsc('title')">
+            <v-icon left small>mdi-movie</v-icon>
             <span class="caption text-lowercase">By Movie Title</span>
           </v-btn>
         </template>
-        <span>Sort Projects By Movie Title</span>
+        <span>Sort List By Movie Title</span>
       </v-tooltip>
       <v-tooltip top>
         <template v-slot:activator="{ on }">
-          <v-btn small text color="grey" v-on="on" @click="sortDesc('vote_average')">
-            <v-icon left small>mdi-account</v-icon>
+          <v-btn text color="grey" v-on="on" @click="sortDesc('vote_average')">
+            <v-icon left small>mdi-star</v-icon>
             <span class="caption text-lowercase">By Rating</span>
           </v-btn>
         </template>
-        <span>Sort Projects By Rating</span>
+        <span>Sort List By Rating</span>
       </v-tooltip>
     </v-row>
 
@@ -67,7 +67,7 @@
          <!-- Remove Action -->
          <v-col cols="12" md="2" class="justify-center align-center">
            <div class="text-right">
-            <v-btn outlined color="red darken-1" @click="removeMovie(movie)">
+            <v-btn outlined color="red darken-1" @click="removeMovie(movie)" class="removeButton">
               <v-icon color="red darken-1">mdi-delete</v-icon>
             </v-btn>
            </div>
@@ -102,6 +102,7 @@ export default {
     removeMovie(movie) {
       return this.$store.dispatch('removeMovie', movie);
     },
+    // Sorting logic
     sortAsc(prop) {
       this.watchlist.sort((a, b) => (a[prop] < b[prop] ? -1 : 1));
     },
@@ -116,6 +117,10 @@ export default {
 .plot {
   text-align: justify;
   text-justify: inter-word;
+}
+
+.removeButton:hover {
+  background-color: #EF9A9A;
 }
 
 p .title {

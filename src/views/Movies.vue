@@ -78,6 +78,7 @@ export default {
   computed: {
     ...mapGetters(['movies', 'loadingMovies', 'errorHandler']),
     filteredResults() {
+      // The filter logic for search functionality
       // eslint-disable-next-line max-len
       const filteredResults = this.movies.filter((movie) => movie.title.toLowerCase().match(this.searchTerm.toLowerCase()));
       if (!filteredResults.length) {
