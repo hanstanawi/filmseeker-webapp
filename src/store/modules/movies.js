@@ -27,6 +27,8 @@ const mutations = {
   },
   SET_MOVIE(state, movie) {
     state.movie = movie;
+    state.loading = false;
+    state.error = false;
   },
   LOADING(state) {
     state.loading = true;
@@ -58,7 +60,6 @@ const actions = {
       .then((res) => {
         const results = [];
         res.map((item) => item.data.results.forEach((movie) => results.push(movie)));
-        console.log(results);
         commit('SET_MOVIES', results);
       })
       .catch((err) => {
@@ -66,14 +67,16 @@ const actions = {
         commit('ERROR');
       });
   },
-  fetchSingleMovie({ commit, state }, id) {
+  fetchSingleMovie({ commit, state }, id, loadingBar) {
+    if (loadingBar) {
+      commit('LOADING');
+    }
     if (id === state.movie.id) {
       return state.movie;
     }
     return movieService.getSingleMovie(id, state.params.language)
       .then((res) => {
         commit('SET_MOVIE', res.data);
-        console.log(res.data);
         return res.data;
       })
       .catch((err) => {

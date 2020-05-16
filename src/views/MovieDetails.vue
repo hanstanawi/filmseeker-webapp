@@ -1,7 +1,7 @@
 <template>
   <div class="movie-details">
     <v-container class="pa-5">
-      <v-row justify="center">
+      <v-row justify="center" v-if="!loadingMovies">
         <!-- Poster -->
         <v-col cols="12" sm="5" md="4" xl="2" class="px-0">
           <v-row justify="center">
@@ -10,7 +10,6 @@
         </v-col>
 
         <!-- Content -->
-
         <v-col cols="12" sm="7" md="8" xl="10">
           <!-- Title  -->
           <h1 class="display-1 font-weight-bold">{{ movie.title }} ({{ movieReleaseDate }})</h1>
@@ -57,6 +56,31 @@
           </v-btn>
         </v-col>
       </v-row>
+
+      <!-- Loading Bar -->
+      <v-row v-if="loadingMovies" class="justify-center">
+        <v-col cols="12" md="6" class="align-center">
+          <v-progress-circular
+          class="loading-bar"
+          indeterminate
+          color="amber"
+          size="100"
+          width="10"/>
+        </v-col>
+      </v-row>
+
+      <v-row v-if="errorHandler" class="justify-center">
+        <v-col cols="12" md="8" class="align-center">
+          <p class="error-handler headline font-weight-bold">
+            <span>
+              <v-icon>mdi-emoticon-sad-outline</v-icon>
+            </span>
+            Ooops! Something went wrong
+          </p>
+        </v-col>
+      </v-row>
+
+
     </v-container>
   </div>
 </template>
@@ -73,7 +97,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(['watchlist', 'moviePoster']),
+    ...mapGetters(['watchlist', 'moviePoster', 'loadingMovies', 'errorHandler']),
     checkRecord() {
       const record = this.watchlist.find((movie) => movie.id === this.movie.id);
       return !!record;
@@ -110,5 +134,16 @@ export default {
 
 .remove-button:hover {
   background-color: #EF9A9A;
+}
+
+.loading-bar {
+  margin-top: 10px;
+  top: 20%;
+  left: 37%;
+}
+
+.error-handler {
+  text-align: center;
+  color: #757575;
 }
 </style>

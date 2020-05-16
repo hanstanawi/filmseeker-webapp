@@ -56,7 +56,6 @@
           <p class="no-result headline font-weight-bold">Sorry, Results Not Found</p>
         </v-col>
       </v-row>
-
     </v-container>
   </div>
 </template>
@@ -81,12 +80,12 @@ export default {
     filteredResults() {
       // eslint-disable-next-line max-len
       const filteredResults = this.movies.filter((movie) => movie.title.toLowerCase().match(this.searchTerm.toLowerCase()));
-      if (filteredResults > 0) {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.searchNotFound = false;
-      } else {
+      if (!filteredResults) {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         this.searchNotFound = true;
+      } else {
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        this.searchNotFound = false;
       }
       return filteredResults;
     },
