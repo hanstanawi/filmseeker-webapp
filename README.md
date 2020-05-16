@@ -4,13 +4,13 @@
 
 Clone the git repository and run these commands
 
-```
+```bash
 npm install
 ```
 
 ### To run in development mode
 
-```
+```bash
 npm run serve
 ```
 
@@ -28,7 +28,7 @@ The logo was made by myself using Adobe Illustrator.
   - Vue Router - Routing library
   - Vuetify - Plugin for Vue.js based on Material Design
 - Axios - Library for fetching the data from the API
-- TMDB API - The API source
+- [TMDB API](https://developers.themoviedb.org/3/discover/movie-discover) - The API source
 - ESLint AirBnB - Code Linter
 
 ### Tools
