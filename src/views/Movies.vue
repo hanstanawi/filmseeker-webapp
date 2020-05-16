@@ -1,8 +1,8 @@
-/* eslint-disable max-len */
 <template>
   <div class="movies">
     <v-container class="my-5">
-      <h1 class="title grey--text">Top 100 Movies</h1>
+      <h1 class="title">Top 100 Movies</h1>
+
       <!-- Search Bar -->
       <v-row class="justify-center">
         <v-col cols="12" sm="8" md="6" class="align-center">
@@ -11,12 +11,14 @@
           label="Search"
           outlined
           clearable
+          color="grey darken-3"
           prepend-inner-icon="mdi-movie-search"
           ></v-text-field>
         </v-col>
       </v-row>
+
       <!-- Movies List -->
-      <v-row v-if="loadingMovies === false">
+      <v-row v-if="!loadingMovies">
         <v-col cols="12" sm="6" md="4" lg="3" xl="2"
         v-for="movie in filteredResults"
         :key="movie.id">
@@ -25,15 +27,36 @@
       </v-row>
 
       <!-- Loading Bar -->
-      <v-row v-if="loadingMovies === true" justify-center align-center>
-        <v-col cols="12" justify-center align-center>
-          <v-progress-circular class="loading" indeterminate color="amber" size="100" width="10"/>
+      <v-row v-if="loadingMovies" class="justify-center">
+        <v-col cols="12" md="6" class="align-center">
+          <v-progress-circular
+          class="loading-bar"
+          indeterminate
+          color="amber"
+          size="100"
+          width="10"/>
         </v-col>
       </v-row>
 
-      <!-- Error -->
+      <!-- Error Handler -->
+      <v-row v-if="errorHandler" class="justify-center">
+        <v-col cols="12" md="8" class="align-center">
+          <p class="error-handler headline font-weight-bold">
+            <span>
+              <v-icon>mdi-emoticon-sad-outline</v-icon>
+            </span>
+            Ooops! Something went wrong
+          </p>
+        </v-col>
+      </v-row>
 
       <!-- Not Found -->
+      <v-row v-if="searchNotFound && !errorHandler" class="justify-center">
+        <v-col cols="12" md="8" class="align-center">
+          <p class="no-result headline font-weight-bold">Sorry, Results Not Found</p>
+        </v-col>
+      </v-row>
+
     </v-container>
   </div>
 </template>
@@ -47,16 +70,25 @@ export default {
   data() {
     return {
       searchTerm: '',
+      searchNotFound: false,
     };
   },
   components: {
     MovieCard,
   },
   computed: {
-    ...mapGetters(['movies', 'loadingMovies']),
+    ...mapGetters(['movies', 'loadingMovies', 'errorHandler']),
     filteredResults() {
       // eslint-disable-next-line max-len
-      return this.movies.filter((movie) => movie.title.toLowerCase().match(this.searchTerm.toLowerCase()));
+      const filteredResults = this.movies.filter((movie) => movie.title.toLowerCase().match(this.searchTerm.toLowerCase()));
+      if (filteredResults > 0) {
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        this.searchNotFound = false;
+      } else {
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        this.searchNotFound = true;
+      }
+      return filteredResults;
     },
   },
   created() {
@@ -64,3 +96,21 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.loading-bar {
+  margin-top: 10px;
+  top: 20%;
+  left: 37%;
+}
+
+.no-result {
+  text-align: center;
+  color: #757575;
+}
+
+.error-handler {
+  text-align: center;
+  color: #757575;
+}
+</style>

@@ -18,16 +18,22 @@ const state = {
   error: false,
 };
 
+// I name the mutations in all caps to avoid name collisions with the actions
 const mutations = {
   SET_MOVIES(state, movies) {
     state.movies = movies;
     state.loading = false;
+    state.error = false;
   },
   SET_MOVIE(state, movie) {
     state.movie = movie;
   },
   LOADING(state) {
     state.loading = true;
+  },
+  ERROR(state) {
+    state.error = true;
+    state.loading = false;
   },
 };
 
@@ -57,6 +63,7 @@ const actions = {
       })
       .catch((err) => {
         console.log(err);
+        commit('ERROR');
       });
   },
   fetchSingleMovie({ commit, state }, id) {
@@ -71,6 +78,7 @@ const actions = {
       })
       .catch((err) => {
         console.log(err);
+        commit('ERROR');
       });
   },
   addMovie({ commit }, movieItem) {
@@ -87,6 +95,9 @@ const getters = {
   },
   loadingMovies(state) {
     return state.loading;
+  },
+  errorHandler(state) {
+    return state.error;
   },
 };
 

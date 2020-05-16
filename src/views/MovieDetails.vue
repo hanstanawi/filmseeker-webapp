@@ -3,48 +3,56 @@
     <v-container class="pa-5">
       <v-row justify="center">
         <!-- Poster -->
-        <v-col cols="12" sm="6" md="4" xl="2" class="px-0">
+        <v-col cols="12" sm="5" md="4" xl="2" class="px-0">
           <v-row justify="center">
-            <v-img contain class="movie-img" :src="moviePoster + movie.poster_path" />
+            <img class="movie-img" :src="moviePoster + movie.poster_path" />
           </v-row>
         </v-col>
 
         <!-- Content -->
 
-        <v-col cols="12" sm="6" md="8" xl="10">
+        <v-col cols="12" sm="7" md="8" xl="10">
           <!-- Title  -->
           <h1 class="display-1 font-weight-bold">{{ movie.title }} ({{ movieReleaseDate }})</h1>
           <!-- Rating -->
-          <p class="title font-weight-medium">
+          <p class="title font-weight-black">
             <span>
-              <v-icon color="amber">mdi-star</v-icon>
+              <v-icon color="amber darken-1">mdi-star</v-icon>
             </span>
           {{ movie.vote_average }}
           </p>
           <!-- Genre -->
           <v-row class="my-3 mr-0">
             <v-chip
-            class="ma-2 d-flex-inline"
-            color="grey lighten-1"
+            class="ma-2 d-flex-inline black--text"
+            color="amber darken-1"
             v-for="genre in movie.genres"
             :key="genre.id">{{ genre.name }}
             </v-chip>
           </v-row>
-          <p>Release Date: {{ movie.release_date }}</p>
-          <p>Runtime: {{ movie.runtime }} mins</p>
-          <p>Language:
+          <!-- Info -->
+          <p><span class="font-weight-bold">Release Date:</span> {{ movie.release_date }}</p>
+          <p><span class="font-weight-bold">Runtime:</span> {{ movie.runtime }} mins</p>
+          <p><span class="font-weight-bold">Language:</span>
             <span v-for="language in movie.spoken_languages" :key="language.name">
             {{ language.name }}
             <span v-if="language.length > 0">,</span>
             </span>
           </p>
+          <!-- Plot -->
           <p class="plot">{{ movie.overview }}</p>
-          <v-btn outlined color="black" @click="addMovie" v-if="!checkRecord">
+          <!-- Action Buttons -->
+          <v-btn
+          outlined
+          color="black"
+          @click="addMovie"
+          v-if="!checkRecord"
+          class="add-button">
             <v-icon color="black" class="mx-1">mdi-plus</v-icon>
             Add Movie
           </v-btn>
-          <v-btn outlined color="red" @click="removeMovie" v-else>
-            <v-icon color="red" class="mx-1">mdi-delete</v-icon>
+          <v-btn outlined color="red darken-4" class="remove-button" @click="removeMovie" v-else>
+            <v-icon color="red darken-4" class="mx-1">mdi-delete</v-icon>
             Remove Movie
           </v-btn>
         </v-col>
@@ -93,6 +101,14 @@ export default {
 
 .movie-img {
   min-height: 0;
-  height: 65vh;
+  height: 425px;
+}
+
+.add-button:hover {
+  background-color: #FFB300;
+}
+
+.remove-button:hover {
+  background-color: #EF9A9A;
 }
 </style>

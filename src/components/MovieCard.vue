@@ -10,7 +10,7 @@
             class="title font-weight-bold black--text"
           >{{ movie.title }} ({{ movieReleaseDate }})</span>
         </router-link>
-        <span class="subtitle-1">
+        <span class="subtitle-1 font-weight-black black--text">
           <v-icon color="amber">mdi-star</v-icon>
           {{ movie.vote_average }}
         </span>
@@ -66,7 +66,4 @@ p .title:hover {
   height: 50vh;
 }
 
-.card-style:hover{
-  background-color:#0000;
-}
 </style>

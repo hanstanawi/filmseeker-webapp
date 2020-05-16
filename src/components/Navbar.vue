@@ -6,15 +6,18 @@
         class="grey--text"
         @click="openDrawer = !openDrawer"
       ></v-app-bar-nav-icon>
-      <!-- Logo -->
+      <!-- Brand Icon -->
       <router-link tag="div" class="brand" to="/">
         <v-toolbar-title class="grey--text text-uppercase">
         <img height="40" :src="getLogoUrl()" alt="logo" class="pt-3">
       </v-toolbar-title>
       </router-link>
       <v-spacer></v-spacer>
+
       <!-- Nav Items -->
+
       <v-toolbar-items class="hidden-xs-only">
+        <!-- Movie Button -->
         <v-btn
         text
         :to="'/'"
@@ -23,13 +26,15 @@
           Movies
         </v-btn>
 
+        <!-- Watchlist Button -->
         <v-btn
         text
         :to="'/watchlist'"
         class="white--text">
         <v-icon left small>mdi-plus</v-icon>
-          <v-badge color="amber"
+          <v-badge color="amber darken-1"
           :content="listLength"
+          inline
           v-if="listLength">
           Watchlist
           </v-badge>
@@ -37,7 +42,9 @@
         </v-btn>
       </v-toolbar-items>
     </v-app-bar>
+
     <!-- Navigation Drawer -->
+
     <v-navigation-drawer app color="grey darken-4" v-model="openDrawer" class="hidden-md-only">
       <v-list>
           <v-list-item

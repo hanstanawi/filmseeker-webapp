@@ -30,6 +30,7 @@ const routes = [
         })
         .catch((err) => {
           console.log(err);
+          store.commit('ERROR');
         });
     },
   },
