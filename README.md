@@ -42,9 +42,9 @@ The logo was made by myself using Adobe Illustrator.
 
 - The web app basically lets the user to search for a movie from top 100 movies from TMDB API. The movies are first fetched from the API using Axios. The user can enter the title of the movie and the movies list will be filtered according to the search query. I use the filter array method for this.
 - I use Vue Router to make the routes. There are three router views:
-- Movies: Lists of all the movies
-- Movie Details: Showing the detail of the movie which the user clicks into. The user can add that particular movie to the watchlist
-- Watchlist: List out the movies that have been added to the watchlist. The users can sort them based on the rating or the alphabetical of the movie title
+  - Movies: Lists of all the movies
+  - Movie Details: Showing the detail of the movie which the user clicks into. The user can add that particular movie to the watchlist
+  - Watchlist: List out the movies that have been added to the watchlist. The users can sort them based on the rating or the alphabetical of the movie title
 - All of the components are hooked into the Vuex, where the state is managed. Therefore, all of the components can communicate properly. I split the store into two separate modules to avoid any confusion between the movies list and the watchlist. Thus, I can manage the state, actions, mutations, and getters of each functionality properly.
 - The axios API call is done on a separate file. I make an axios instance and export some of the API methods to clean up the API call paramaters from the store.
 - I use the ESLint Airbnb style, although some of the times I turn it off, especially in the store because it sometimes disrupts the access to the state.
