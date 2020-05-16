@@ -1,10 +1,11 @@
 <template>
   <div class="watchlist">
     <v-container class="my-5 pa-5">
-    <template v-if="watchlist > 0">
+    <template v-if="watchlist.length > 0">
     <h1 class="title">Your Watchlist</h1>
 
     <!-- Sort buttons -->
+
      <v-row class="mb-3">
       <v-tooltip top>
         <template v-slot:activator="{ on }">
@@ -27,13 +28,18 @@
     </v-row>
 
     <!-- Movie Watchlist -->
+
      <v-card flat v-for="(movie, index) in watchlist" :key="movie.id">
        <v-row class="pa-3 project">
+
+         <!-- Movie Poster -->
          <v-col cols="12" sm="4" md="2" class="justify-start">
            <v-avatar class="ma-3" size="180" tile>
               <v-img contain :src="moviePoster + movie.poster_path"></v-img>
             </v-avatar>
          </v-col>
+
+         <!-- Movie Info -->
          <v-col cols="12" sm="8">
           <router-link
           class="title"
@@ -57,6 +63,8 @@
              {{ movie.overview }}
             </div>
          </v-col>
+
+         <!-- Remove Action -->
          <v-col cols="12" md="2" class="justify-center align-center">
            <div class="text-right">
             <v-btn outlined color="red darken-1" @click="removeMovie(movie)">
@@ -69,9 +77,13 @@
      </v-card>
      </template>
 
-     <v-row v-else>
-       <v-col cols="12">
-         <h1>No movies</h1>
+    <!-- No Item -->
+     <v-row v-else class="justify-center">
+       <v-col cols="12" md="6" class="align-center">
+         <p
+         class="no-movie headline font-weight-medium">
+         You haven't added any movies to your watchlist
+         </p>
        </v-col>
      </v-row>
     </v-container>
@@ -114,4 +126,8 @@ p .title:hover {
   text-decoration: underline;
 }
 
+.no-result {
+  text-align: center;
+  color: #757575;
+}
 </style>

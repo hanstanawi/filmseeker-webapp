@@ -80,7 +80,7 @@ export default {
     filteredResults() {
       // eslint-disable-next-line max-len
       const filteredResults = this.movies.filter((movie) => movie.title.toLowerCase().match(this.searchTerm.toLowerCase()));
-      if (!filteredResults) {
+      if (!filteredResults.length) {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         this.searchNotFound = true;
       } else {

@@ -3,7 +3,7 @@
     <v-app-bar flat app color="grey darken-4">
       <!-- Open Drawer -->
       <v-app-bar-nav-icon
-        class="grey--text"
+        class="amber--text"
         @click="openDrawer = !openDrawer"
       ></v-app-bar-nav-icon>
       <!-- Brand Icon -->

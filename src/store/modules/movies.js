@@ -18,7 +18,7 @@ const state = {
   error: false,
 };
 
-// I name the mutations in all caps to avoid name collisions with the actions
+// I name the mutations in all caps to avoid name collisions with the actions variable name
 const mutations = {
   SET_MOVIES(state, movies) {
     state.movies = movies;
@@ -89,6 +89,8 @@ const actions = {
   },
 };
 
+// I use the getters to access the state from the component
+// I think it's more convenient than directly access it from state
 const getters = {
   movies(state) {
     return state.movies;
