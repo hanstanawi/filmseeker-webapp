@@ -22,7 +22,7 @@
         text
         :to="'/'"
         class="white--text">
-          <v-icon left small>mdi-movie</v-icon>
+          <v-icon left small color="amber">mdi-movie</v-icon>
           Movies
         </v-btn>
 
@@ -31,7 +31,7 @@
         text
         :to="'/watchlist'"
         class="white--text">
-        <v-icon left small>mdi-plus</v-icon>
+        <v-icon left small color="amber">mdi-plus</v-icon>
           <v-badge color="amber darken-1"
           :content="listLength"
           inline
@@ -54,7 +54,7 @@
             :to="link.url"
           >
             <v-list-item-action>
-              <v-icon class="white--text">{{ link.icon }}</v-icon>
+              <v-icon color="amber">{{ link.icon }}</v-icon>
             </v-list-item-action>
             <v-list-item-subtitle class="white--text">{{
               link.label

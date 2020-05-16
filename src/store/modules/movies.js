@@ -44,7 +44,6 @@ const actions = {
     if (loadingBar) {
       commit('LOADING');
     }
-
     // Because every page has 20 movies, so we need to divide it by 20
     // in order to get the number of page
     const pageCount = (state.totalResults / 20) + 1;
@@ -60,6 +59,7 @@ const actions = {
       .then((res) => {
         const results = [];
         res.map((item) => item.data.results.forEach((movie) => results.push(movie)));
+        console.log(results);
         commit('SET_MOVIES', results);
       })
       .catch((err) => {
