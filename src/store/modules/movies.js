@@ -5,7 +5,6 @@
 // because setting up all the axios methods in one vuex file will get messy
 import movieService from '@/services/movieService';
 
-
 const state = {
   movies: [],
   movie: {},

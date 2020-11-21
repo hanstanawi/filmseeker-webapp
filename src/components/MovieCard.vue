@@ -1,17 +1,29 @@
 <template>
   <div class="movie-card">
-    <v-card flat class="text-center ma-1 my-3 mx-auto card-style" max-width="400">
+    <v-card
+      flat
+      class="text-center ma-1 my-3 mx-auto card-style"
+      max-width="400"
+    >
       <!-- Movie Poster -->
       <v-responsive class="pa-1">
-        <v-img :src="moviePoster + movie.poster_path" class="movie-img" contain></v-img>
+        <v-img
+          :src="moviePoster + movie.poster_path"
+          class="movie-img"
+          contain
+        ></v-img>
       </v-responsive>
 
       <!-- Movie Info -->
       <v-card-text class="ma-0 card-text">
-        <router-link class="title" tag="p" :to="{ name: 'MovieDetails', params: { id: movie.id } }">
-            <span
-            class="title font-weight-bold black--text"
-          >{{ movie.title }} ({{ movieReleaseDate }})</span>
+        <router-link
+          class="title"
+          tag="p"
+          :to="{ name: 'MovieDetails', params: { id: movie.id } }"
+        >
+          <span class="title font-weight-bold black--text"
+            >{{ movie.title }} ({{ movieReleaseDate }})</span
+          >
         </router-link>
         <span class="subtitle-1 font-weight-black black--text">
           <v-icon color="amber">mdi-star</v-icon>
@@ -44,7 +56,7 @@ export default {
 
 <style scoped>
 p .title {
-cursor: pointer;
+  cursor: pointer;
 }
 
 p .title:hover {
@@ -54,5 +66,4 @@ p .title:hover {
 .movie-img {
   height: 50vh;
 }
-
 </style>
