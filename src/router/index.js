@@ -7,6 +7,11 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: '/',
+    name: 'Home',
+    component: () => import(/* webpackChunkName: "movies" */'../views/Homepage.vue'),
+  },
+  {
+    path: '/movies',
     name: 'Movies',
     component: () => import(/* webpackChunkName: "movies" */'../views/Movies.vue'),
   },
@@ -22,7 +27,7 @@ const routes = [
     props: true,
     beforeEnter(routeTo, routeFrom, next) {
       // Passing params as props using Route Guards
-      store.dispatch('fetchSingleMovie', routeTo.params.id, true)
+      store.dispatch('movies/fetchSingleMovie', routeTo.params.id, true)
         .then((movie) => {
           // eslint-disable-next-line no-param-reassign
           routeTo.params.movie = movie;

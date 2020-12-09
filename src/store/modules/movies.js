@@ -1,17 +1,12 @@
 /* eslint-disable consistent-return */
 /* eslint-disable no-shadow */
 
-// I setup a separate module for fetch api service
-// because setting up all the axios methods in one vuex file will get messy
-import movieService from '@/services/movieService';
+import movieService from '@/api/movieAPI';
 
 const state = {
   movies: [],
   movie: {},
   basePosterURL: 'https://image.tmdb.org/t/p/w500',
-  // I store the params in the state, so in the future
-  // it will be easier to apply different search params
-  // for the users to choose
   params: {
     language: 'en-US',
     sortBy: 'vote_average.desc',
@@ -21,7 +16,6 @@ const state = {
   error: false,
 };
 
-// I name the mutations in all caps to avoid name collisions with the actions variable name
 const mutations = {
   SET_MOVIES(state, movies) {
     state.movies = movies;
@@ -48,17 +42,12 @@ const actions = {
     if (loadingBar) {
       commit('LOADING');
     }
-    // Because every page has 20 movies, so we need to divide it by 20
-    // in order to get the number of page
     const pageCount = (state.totalResults / 20) + 1;
     const responseArray = [];
     for (let i = 1; i < pageCount; i += 1) {
       const res = movieService.getMovies(state.params.language, state.params.sortBy, i);
       responseArray.push(res);
     }
-    // Promises can't be resolved during the loop,
-    // So, we need to create an array of promises from the api call
-    // and resolve them all then it returns a single promise
     Promise.all(responseArray)
       .then((res) => {
         const results = [];
@@ -89,13 +78,8 @@ const actions = {
         commit('ERROR');
       });
   },
-  addMovie({ commit }, movieItem) {
-    commit('ADD_MOVIE', movieItem);
-  },
 };
 
-// I use the getters to access the state from the component
-// I think it's more convenient than directly access it from state
 const getters = {
   movies(state) {
     return state.movies;
@@ -112,6 +96,7 @@ const getters = {
 };
 
 export default {
+  namespaced: true,
   state,
   mutations,
   actions,

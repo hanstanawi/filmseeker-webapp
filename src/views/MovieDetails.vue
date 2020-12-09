@@ -12,45 +12,65 @@
         <!-- Content -->
         <v-col cols="12" sm="7" md="8" xl="10">
           <!-- Title  -->
-          <h1 class="display-1 font-weight-bold">{{ movie.title }} ({{ movieReleaseDate }})</h1>
+          <h1 class="display-1 font-weight-bold">
+            {{ movie.title }} ({{ movieReleaseDate }})
+          </h1>
           <!-- Rating -->
           <p class="title font-weight-black">
             <span>
               <v-icon color="amber darken-1">mdi-star</v-icon>
             </span>
-          {{ movie.vote_average }}
+            {{ movie.vote_average }}
           </p>
           <!-- Genre -->
           <v-row class="my-3 mr-0">
             <v-chip
-            class="ma-2 d-flex-inline black--text"
-            color="amber darken-1"
-            v-for="genre in movie.genres"
-            :key="genre.id">{{ genre.name }}
+              class="ma-2 d-flex-inline black--text"
+              color="amber darken-1"
+              v-for="genre in movie.genres"
+              :key="genre.id"
+              >{{ genre.name }}
             </v-chip>
           </v-row>
           <!-- Info -->
-          <p><span class="font-weight-bold">Release Date:</span> {{ movie.release_date }}</p>
-          <p><span class="font-weight-bold">Runtime:</span> {{ movie.runtime }} mins</p>
-          <p><span class="font-weight-bold">Language:</span>
-            <span v-for="language in movie.spoken_languages" :key="language.name">
-            {{ language.name }}
-            <span v-if="language.length > 0">,</span>
+          <p>
+            <span class="font-weight-bold">Release Date:</span>
+            {{ movie.release_date }}
+          </p>
+          <p>
+            <span class="font-weight-bold">Runtime:</span>
+            {{ movie.runtime }} mins
+          </p>
+          <p>
+            <span class="font-weight-bold">Language:</span>
+            <span
+              v-for="language in movie.spoken_languages"
+              :key="language.name"
+            >
+              {{ language.name }}
+              <span v-if="language.length > 0">,</span>
             </span>
           </p>
           <!-- Plot -->
           <p class="plot">{{ movie.overview }}</p>
           <!-- Action Buttons -->
           <v-btn
-          outlined
-          color="black"
-          @click="addMovie"
-          v-if="!checkRecord"
-          class="add-button">
+            outlined
+            color="black"
+            @click="addMovie"
+            v-if="!checkRecord"
+            class="add-button"
+          >
             <v-icon color="black" class="mx-1">mdi-plus</v-icon>
             Add Movie
           </v-btn>
-          <v-btn outlined color="red darken-4" class="remove-button" @click="removeMovie" v-else>
+          <v-btn
+            outlined
+            color="red darken-4"
+            class="remove-button"
+            @click="removeMovie"
+            v-else
+          >
             <v-icon color="red darken-4" class="mx-1">mdi-delete</v-icon>
             Remove Movie
           </v-btn>
@@ -61,14 +81,15 @@
       <v-row v-if="loadingMovies" class="justify-center">
         <v-col cols="12" md="6" class="align-center">
           <v-progress-circular
-          class="loading-bar"
-          indeterminate
-          color="amber"
-          size="100"
-          width="10"/>
+            class="loading-bar"
+            indeterminate
+            color="amber"
+            size="100"
+            width="10"
+          />
         </v-col>
       </v-row>
-
+      <!-- ERROR HANDLER -->
       <v-row v-if="errorHandler" class="justify-center">
         <v-col cols="12" md="8" class="align-center">
           <p class="error-handler headline font-weight-bold">
@@ -95,7 +116,12 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(['watchlist', 'moviePoster', 'loadingMovies', 'errorHandler']),
+    ...mapGetters({
+      watchlist: 'watchlist/watchlist',
+      moviePoster: 'movies/moviePoster',
+      loadingMovies: 'movies/loadingMovies',
+      errorHandler: 'movies/errorHandler',
+    }),
     // Checking if the movie is already added, to add the logic of the add/remove buttons
     checkRecord() {
       const record = this.watchlist.find((movie) => movie.id === this.movie.id);
@@ -107,10 +133,10 @@ export default {
   },
   methods: {
     addMovie() {
-      return this.$store.dispatch('addMovie', this.movie);
+      return this.$store.dispatch('watchlist/addMovie', this.movie);
     },
     removeMovie() {
-      return this.$store.dispatch('removeMovie', this.movie);
+      return this.$store.dispatch('watchlist/removeMovie', this.movie);
     },
   },
 };
@@ -128,11 +154,11 @@ export default {
 }
 
 .add-button:hover {
-  background-color: #FFB300;
+  background-color: #ffb300;
 }
 
 .remove-button:hover {
-  background-color: #EF9A9A;
+  background-color: #ef9a9a;
 }
 
 .loading-bar {

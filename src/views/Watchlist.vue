@@ -96,11 +96,14 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'Watchlist',
   computed: {
-    ...mapGetters(['watchlist', 'moviePoster']),
+    ...mapGetters({
+      watchlist: 'watchlist/watchlist',
+      moviePoster: 'movies/moviePoster',
+    }),
   },
   methods: {
     removeMovie(movie) {
-      return this.$store.dispatch('removeMovie', movie);
+      return this.$store.dispatch('watchlist/removeMovie', movie);
     },
     // Sorting logic
     sortAsc(prop) {

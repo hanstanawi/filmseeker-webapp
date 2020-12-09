@@ -46,7 +46,11 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(['moviePoster', 'watchlist']),
+    // ...mapGetters(['moviePoster', 'watchlist']),
+    ...mapGetters({
+      moviePoster: 'movies/moviePoster',
+      watchlist: 'watchlist/watchlist',
+    }),
     movieReleaseDate() {
       return this.movie.release_date.slice(0, 4);
     },
