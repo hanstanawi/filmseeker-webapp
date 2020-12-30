@@ -1,11 +1,11 @@
 <template>
   <v-app>
     <Navbar />
-    <v-content class="mx-4 mb-4 mt-5">
+    <v-main>
       <transition name="slide" mode="out-in">
         <router-view></router-view>
       </transition>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 

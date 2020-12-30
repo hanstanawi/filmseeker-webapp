@@ -3,9 +3,7 @@
     <v-container class="my-5 pa-5">
     <template v-if="watchlist.length > 0">
     <h1 class="title font-weight-bold">Your Watchlist</h1>
-
     <!-- Sort buttons -->
-
      <v-row class="mb-3">
       <v-tooltip top>
         <template v-slot:activator="{ on }">

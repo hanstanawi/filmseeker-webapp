@@ -1,18 +1,19 @@
 import apiClient from './axios';
 
 export default {
-  getPopularMovies() {
-    return apiClient.get(`/movie/popular?api_key=${process.env.VUE_APP_API_KEY}&language=en-US&page=1`);
+  getPopularMovies(pageNum) {
+    return apiClient.get(`/movies/popular?page=${pageNum}`);
   },
-  getNowPlaying() {
-    return apiClient.get(`/movie/now_playing?api_key=${process.env.VUE_APP_API_KEY}&language=en-US&page=1`);
+  getNowPlaying(pageNum) {
+    return apiClient.get(`/movies/now-playing?page=${pageNum}`);
   },
-  getMovies(language, sortBy, pageCount) {
-    return apiClient.get(
-      `/discover/movie/?api_key=${process.env.VUE_APP_API_KEY}&language=${language}&sort_by=${sortBy}&include_adult=false&include_video=false&page=${pageCount}&vote_count.gte=150`,
-    );
+  getTopRatedMovies(pageCount) {
+    return apiClient.get(`/movies/top-rated?page=${pageCount}`);
   },
-  getSingleMovie(movieId, language) {
-    return apiClient.get(`/movie/${movieId}?api_key=${process.env.VUE_APP_API_KEY}&language=${language}`);
+  getUpcomingMovies(pageCount) {
+    return apiClient.get(`/movies/upcoming?page=${pageCount}`);
+  },
+  getSingleMovie(movieId) {
+    return apiClient.get(`/movies/${movieId}`);
   },
 };

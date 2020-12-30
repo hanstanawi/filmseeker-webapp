@@ -1,78 +1,39 @@
 <template>
   <div class="movies">
     <v-container class="my-5">
-      <h1 class="title">Top 100 Movies</h1>
+      <now-playing
+        v-if="isNowPlayingMovies"
+        :movies-list="nowPlayingMovies"
+        :is-loading="loadingMovies"
+      />
 
-      <!-- Search Bar -->
-      <v-row class="justify-center">
-        <v-col cols="12" sm="8" md="6" class="align-center">
-          <v-text-field
-            rounded
-            v-model="searchTerm"
-            label="Search"
-            outlined
-            clearable
-            color="grey darken-3"
-            prepend-inner-icon="mdi-movie-search"
-          ></v-text-field>
-        </v-col>
-      </v-row>
+      <popular
+        v-if="isPopularMovies"
+        :movies-list="popularMovies"
+        :is-loading="loadingMovies"
+      />
 
-      <!-- Movies List -->
-      <v-row v-if="!loadingMovies">
-        <v-col
-          cols="12"
-          sm="6"
-          md="4"
-          lg="3"
-          xl="2"
-          v-for="movie in filteredResults"
-          :key="movie.id"
-        >
-          <MovieCard :movie="movie" />
-        </v-col>
-      </v-row>
+      <top-rated
+        v-if="isTopRatedMovies"
+        :movies-list="topRatedMovies"
+        :is-loading="loadingMovies"
+      />
 
-      <!-- Loading Bar -->
-      <v-row v-if="loadingMovies" class="justify-center">
-        <v-col cols="12" md="6" class="align-center">
-          <v-progress-circular
-            class="loading-bar"
-            indeterminate
-            color="amber"
-            size="100"
-            width="10"
-          />
-        </v-col>
-      </v-row>
-
-      <!-- Error Handler -->
-      <v-row v-if="errorHandler" class="justify-center">
-        <v-col cols="12" md="8" class="align-center">
-          <p class="error-handler headline font-weight-bold">
-            <span>
-              <v-icon>mdi-emoticon-sad-outline</v-icon>
-            </span>
-            Ooops! Something went wrong
-          </p>
-        </v-col>
-      </v-row>
-
-      <!-- Not Found -->
-      <v-row v-if="searchNotFound && !errorHandler" class="justify-center">
-        <v-col cols="12" md="8" class="align-center">
-          <p class="no-result headline font-weight-bold">
-            Sorry, Results Not Found
-          </p>
-        </v-col>
-      </v-row>
+      <upcoming
+        v-if="isUpcomingMovies"
+        :movies-list="upcomingMovies"
+        :is-loading="loadingMovies"
+      />
     </v-container>
   </div>
 </template>
 
 <script>
-import MovieCard from '@/components/movies/MovieCard.vue';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
+import NowPlaying from '../components/movies/NowPlaying.vue';
+import Popular from '../components/movies/Popular.vue';
+import TopRated from '../components/movies/TopRated.vue';
+import Upcoming from '../components/movies/Upcoming.vue';
 
 export default {
   name: 'Home',
@@ -80,33 +41,50 @@ export default {
     return {
       searchTerm: '',
       searchNotFound: false,
+      loading: false,
     };
   },
   components: {
-    MovieCard,
+    NowPlaying,
+    Popular,
+    TopRated,
+    Upcoming,
   },
   computed: {
     ...mapGetters({
-      movies: 'movies/movies',
+      topRatedMovies: 'movies/topRatedMovies',
+      popularMovies: 'movies/popularMovies',
+      nowPlayingMovies: 'movies/nowPlayingMovies',
+      upcomingMovies: 'movies/upcomingMovies',
       loadingMovies: 'movies/loadingMovies',
       errorHandler: 'movies/errorHandler',
     }),
-    filteredResults() {
-      // The filter logic for search functionality
-      // eslint-disable-next-line max-len
-      const filteredResults = this.movies.filter((movie) => movie.title.toLowerCase().match(this.searchTerm.toLowerCase()));
-      if (!filteredResults.length) {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.searchNotFound = true;
-      } else {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.searchNotFound = false;
-      }
-      return filteredResults;
+    isNowPlayingMovies() {
+      return this.$route.path.includes('now-playing');
+    },
+    isPopularMovies() {
+      return this.$route.path.includes('popular');
+    },
+    isTopRatedMovies() {
+      return this.$route.path.includes('top-rated');
+    },
+    isUpcomingMovies() {
+      return this.$route.path.includes('upcoming');
     },
   },
-  created() {
-    this.$store.dispatch('movies/fetchMovies', true);
+  async mounted() {
+    await this.fetchTopRatedMovies(true);
+    await this.fetchPopularMovies();
+    await this.fetchNowPlayingMovies();
+    await this.fetchUpcomingMovies();
+  },
+  methods: {
+    ...mapActions({
+      fetchTopRatedMovies: 'movies/fetchTopRatedMovies',
+      fetchPopularMovies: 'movies/fetchPopularMovies',
+      fetchNowPlayingMovies: 'movies/fetchNowPlaying',
+      fetchUpcomingMovies: 'movies/fetchUpcomingMovies',
+    }),
   },
 };
 </script>
