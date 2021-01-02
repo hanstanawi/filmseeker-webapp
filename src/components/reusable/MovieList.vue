@@ -4,7 +4,12 @@
     <h1 class="title">{{ title }}</h1>
     <!-- Search Bar -->
     <v-row class="justify-center">
-      <v-col cols="12" sm="8" md="6" class="align-center">
+      <v-col
+        cols="12"
+        sm="8"
+        md="6"
+        class="align-center"
+      >
         <v-text-field
           rounded
           v-model="searchTerm"
@@ -18,7 +23,7 @@
     </v-row>
 
     <!-- Movies List -->
-    <v-row v-if="!loadingMovies">
+    <v-row>
       <v-col
         cols="12"
         sm="6"
@@ -29,19 +34,6 @@
         :key="movie.id"
       >
         <MovieCard :movie="movie" />
-      </v-col>
-    </v-row>
-
-    <!-- Loading Bar -->
-    <v-row v-if="loadingMovies" class="justify-center">
-      <v-col cols="12" md="6" class="align-center">
-        <v-progress-circular
-          class="loading-bar"
-          indeterminate
-          color="amber"
-          size="100"
-          width="10"
-        />
       </v-col>
     </v-row>
 
@@ -77,16 +69,11 @@ export default {
     return {
       searchTerm: '',
       searchNotFound: false,
-      loading: false,
       errorHandler: false,
       page: 1,
     };
   },
   props: {
-    loadingMovies: {
-      type: Boolean,
-      default: false,
-    },
     movies: {
       type: Array,
       required: true,
@@ -119,6 +106,9 @@ export default {
 };
 </script>
 
-<style>
-
+<style scoped>
+.no-result {
+  text-align: center;
+  color: #757575;
+}
 </style>

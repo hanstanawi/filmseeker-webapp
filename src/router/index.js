@@ -43,6 +43,23 @@ const routes = [
     },
   },
   {
+    path: '/series/:id',
+    name: 'SeriesDetails',
+    component: () => import(/* webpackChunkName: "movie-details" */ '../components/series/SeriesDetails.vue'),
+    props: true,
+    // async beforeEnter(routeTo, routeFrom, next) {
+    //   try {
+    //     const movie = await store.dispatch('movies/fetchSingleMovie', routeTo.params.id);
+    //     // eslint-disable-next-line no-param-reassign
+    //     routeTo.params.movie = movie;
+    //     next();
+    //   } catch (err) {
+    //     console.log(err);
+    //     store.commit('ERROR');
+    //   }
+    // },
+  },
+  {
     path: '/login',
     name: 'Login',
     component: () => import(/* webpackChunkName: "movies" */ '../components/auth/Login.vue'),

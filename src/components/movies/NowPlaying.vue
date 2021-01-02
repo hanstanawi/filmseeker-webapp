@@ -3,7 +3,6 @@
     <movie-list
       :title="title"
       :movies="moviesList"
-      :loading-movies="isLoading"
     />
     <v-row justify="center">
       <v-col cols="12">
@@ -32,10 +31,6 @@ export default {
     moviesList: {
       type: Array,
       required: true,
-    },
-    isLoading: {
-      type: Boolean,
-      default: false,
     },
   },
   components: {

@@ -2,7 +2,7 @@
 import seriesAPI from '@/api/seriesAPI';
 
 const state = {
-  latest: [],
+  onAir: [],
   popular: [],
   topRated: [],
   nowAiring: [],
@@ -10,8 +10,8 @@ const state = {
 };
 
 const getters = {
-  latestSeries(state) {
-    return state.latest;
+  onAirSeries(state) {
+    return state.onAir;
   },
   popularSeries(state) {
     return state.popular;
@@ -22,11 +22,14 @@ const getters = {
   nowAiringSeries(state) {
     return state.nowAiring;
   },
+  singleSeries(state) {
+    return state.series;
+  },
 };
 
 const mutations = {
-  SET_LATEST_SERIES(state, series) {
-    state.latest = series;
+  SET_ON_AIR_SERIES(state, series) {
+    state.onAir = series;
   },
   SET_POPULAR_SERIES(state, series) {
     state.popular = series;
@@ -40,11 +43,11 @@ const mutations = {
 };
 
 const actions = {
-  async fetchLatestSeries({ commit }, pageNum = 1) {
+  async fetchOnAirSeries({ commit }, pageNum = 1) {
     try {
-      const results = await seriesAPI.getLatestSeries(pageNum);
-      const { series } = results;
-      commit('SET_LATEST_SERIES', series);
+      const results = await seriesAPI.getOnAirSeries(pageNum);
+      const { series } = results.data;
+      commit('SET_ON_AIR_SERIES', series);
     } catch (err) {
       console.error(err);
     }
@@ -52,7 +55,7 @@ const actions = {
   async fetchPopularSeries({ commit }, pageNum = 1) {
     try {
       const results = await seriesAPI.getPopularSeries(pageNum);
-      const { series } = results;
+      const { series } = results.data;
       commit('SET_POPULAR_SERIES', series);
     } catch (err) {
       console.error(err);
@@ -61,7 +64,7 @@ const actions = {
   async fetchTopRatedSeries({ commit }, pageNum = 1) {
     try {
       const results = await seriesAPI.getTopRatedSeries(pageNum);
-      const { series } = results;
+      const { series } = results.data;
       commit('SET_TOP_RATED_SERIES', series);
     } catch (err) {
       console.error(err);
@@ -70,8 +73,8 @@ const actions = {
   async fetchSingleSeries({ commit }, seriesId) {
     try {
       const result = await seriesAPI.getSingleSeries(seriesId);
-      const { data } = result;
-      commit('SET_SINGLE_SERIES', data);
+      const { series } = result.data;
+      commit('SET_SINGLE_SERIES', series);
     } catch (err) {
       console.error(err);
     }

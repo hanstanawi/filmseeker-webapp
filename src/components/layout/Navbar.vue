@@ -20,17 +20,18 @@
           Movies
         </v-btn>
         <!-- TV Series Button -->
-        <v-btn text :to="'/series'" class="white--text">
+        <v-btn text :to="'/series/on-air'" class="white--text">
           <v-icon left small color="amber">mdi-television-classic</v-icon>
           TV Series
         </v-btn>
       </v-toolbar-items>
+      <v-spacer></v-spacer>
       <v-autocomplete
         v-model="searchTerm"
         flat
         outlined
         dense
-        class="mt-6 ml-2"
+        class="mt-6 mr-5"
         placeholder="Search Your Favorite Movies"
         prepend-inner-icon="mdi-movie-search"
         background-color="white"
@@ -121,6 +122,23 @@
             </v-list-item-subtitle>
           </v-list-item>
         </template>
+        <template v-else-if="isSeriesPage">
+          <v-list-item
+            v-for="link in seriesPageLinks"
+            :key="link.label"
+            route
+            :to="link.url"
+          >
+            <v-list-item-action>
+              <v-icon color="amber">
+                {{ link.icon }}
+              </v-icon>
+            </v-list-item-action>
+            <v-list-item-subtitle class="white--text">
+              {{ link.label }}
+            </v-list-item-subtitle>
+          </v-list-item>
+        </template>
         <template v-else>
           <v-list-item
             v-for="link in links"
@@ -184,6 +202,23 @@ export default {
           icon: 'mdi-trophy',
         },
       ],
+      seriesPageLinks: [
+        {
+          label: 'On Air',
+          url: '/series/on-air',
+          icon: 'mdi-television-classic',
+        },
+        {
+          label: 'Popular',
+          url: '/series/popular',
+          icon: 'mdi-star',
+        },
+        {
+          label: 'Top Rated',
+          url: '/series/top-rated',
+          icon: 'mdi-trophy',
+        },
+      ],
       openDrawer: false,
       searchTerm: '',
     };
@@ -191,6 +226,13 @@ export default {
   watch: {
     isMoviesPage(val) {
       if (val) {
+        this.openDrawer = true;
+      } else {
+        this.openDrawer = false;
+      }
+    },
+    isSeriesPage(val) {
+      if (val || this.isMoviesPage) {
         this.openDrawer = true;
       } else {
         this.openDrawer = false;
@@ -206,6 +248,9 @@ export default {
     },
     isMoviesPage() {
       return this.$route.path.includes('movies');
+    },
+    isSeriesPage() {
+      return this.$route.path.includes('series');
     },
   },
   methods: {

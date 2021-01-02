@@ -1,29 +1,39 @@
 <template>
   <div class="movies">
     <v-container class="my-5">
-      <now-playing
-        v-if="isNowPlayingMovies"
-        :movies-list="nowPlayingMovies"
-        :is-loading="loadingMovies"
-      />
+      <div v-if="!loading">
+        <now-playing
+          v-if="isNowPlayingMovies"
+          :movies-list="nowPlayingMovies"
+        />
 
-      <popular
-        v-if="isPopularMovies"
-        :movies-list="popularMovies"
-        :is-loading="loadingMovies"
-      />
+        <popular
+          v-if="isPopularMovies"
+          :movies-list="popularMovies"
+        />
 
-      <top-rated
-        v-if="isTopRatedMovies"
-        :movies-list="topRatedMovies"
-        :is-loading="loadingMovies"
-      />
+        <top-rated
+          v-if="isTopRatedMovies"
+          :movies-list="topRatedMovies"
+        />
 
-      <upcoming
-        v-if="isUpcomingMovies"
-        :movies-list="upcomingMovies"
-        :is-loading="loadingMovies"
-      />
+        <upcoming
+          v-if="isUpcomingMovies"
+          :movies-list="upcomingMovies"
+        />
+      </div>
+
+      <v-row v-else justify="center">
+        <v-col cols="12" align="center">
+          <v-progress-circular
+            class="loading-bar"
+            indeterminate
+            color="amber"
+            size="100"
+            width="10"
+          />
+        </v-col>
+      </v-row>
     </v-container>
   </div>
 </template>
@@ -39,8 +49,6 @@ export default {
   name: 'Home',
   data() {
     return {
-      searchTerm: '',
-      searchNotFound: false,
       loading: false,
     };
   },
@@ -56,7 +64,6 @@ export default {
       popularMovies: 'movies/popularMovies',
       nowPlayingMovies: 'movies/nowPlayingMovies',
       upcomingMovies: 'movies/upcomingMovies',
-      loadingMovies: 'movies/loadingMovies',
       errorHandler: 'movies/errorHandler',
     }),
     isNowPlayingMovies() {
@@ -73,10 +80,12 @@ export default {
     },
   },
   async mounted() {
+    this.loading = true;
     await this.fetchTopRatedMovies(true);
     await this.fetchPopularMovies();
     await this.fetchNowPlayingMovies();
     await this.fetchUpcomingMovies();
+    this.loading = false;
   },
   methods: {
     ...mapActions({
@@ -91,9 +100,7 @@ export default {
 
 <style scoped>
 .loading-bar {
-  margin-top: 10px;
-  top: 20%;
-  left: 37%;
+  transform: translate(0, 250%);
 }
 
 .no-result {

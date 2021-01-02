@@ -3,7 +3,7 @@
     <v-container class="pa-5 mt-10">
       <v-row
         justify="center"
-        v-if="!loadingMovies"
+        v-if="!loading"
       >
         <!-- Poster -->
         <v-col
@@ -46,7 +46,8 @@
               color="amber darken-1"
               v-for="genre in movie.details.genres"
               :key="genre.id"
-              >{{ genre.name }}
+            >
+              {{ genre.name }}
             </v-chip>
           </v-row>
           <!-- Info -->
@@ -79,7 +80,7 @@
             class="add-button"
           >
             <v-icon color="black" class="mx-1">mdi-plus</v-icon>
-            Add Movie
+            Add to Watchlist
           </v-btn>
           <v-btn
             outlined
@@ -89,14 +90,14 @@
             v-else
           >
             <v-icon color="red darken-4" class="mx-1">mdi-delete</v-icon>
-            Remove Movie
+            Remove From Watchlist
           </v-btn>
         </v-col>
       </v-row>
 
       <!-- Loading Bar -->
       <v-row
-        v-if="loadingMovies"
+        v-if="loading"
         class="justify-center"
       >
         <v-col
@@ -134,18 +135,22 @@ import { mapGetters, mapActions } from 'vuex';
 export default {
   name: 'MovieDetails',
   props: {
-    movie: {
-      type: Object,
+    id: {
+      type: Number,
       required: true,
     },
+  },
+  data() {
+    return {
+      loading: false,
+    };
   },
   computed: {
     ...mapGetters({
       watchlist: 'watchlist/watchlist',
-      loadingMovies: 'movies/loadingMovies',
       errorHandler: 'movies/errorHandler',
+      movie: 'movies/singleMovie',
     }),
-    // Checking if the movie is already added, to add the logic of the add/remove buttons
     checkRecord() {
       const record = this.watchlist.find((movie) => movie.id === this.movie.id);
       return !!record;
@@ -154,10 +159,16 @@ export default {
       return this.movie.details.release_date.slice(0, 4);
     },
   },
+  async mounted() {
+    this.loading = true;
+    await this.fetchSingleMovie(this.id);
+    this.loading = false;
+  },
   methods: {
     ...mapActions({
       addMovie: 'watchlist/addMovie',
       removeMovie: 'watchlist/removeMovie',
+      fetchSingleMovie: 'movies/fetchSingleMovie',
     }),
   },
 };

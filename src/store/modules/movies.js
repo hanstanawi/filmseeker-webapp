@@ -43,9 +43,6 @@ const mutations = {
 
 const actions = {
   async fetchTopRatedMovies({ commit }, pageNum = 1) {
-    // if (loadingBar) {
-    //   commit('LOADING');
-    // }
     try {
       const results = await movieService.getTopRatedMovies(pageNum);
       const { movies } = results.data;
@@ -54,40 +51,19 @@ const actions = {
       console.error(err);
       commit('ERROR');
     }
-    // const pageCount = state.totalResults / 20 + 1;
-    // const responseArray = [];
-    // for (let i = 1; i < pageCount; i += 1) {
-    //   const res = movieService.getTopRatedMovies(state.params.language, state.params.sortBy, i);
-    //   responseArray.push(res);
-    // }
-    // Promise.all(responseArray)
-    //   .then((res) => {
-    //     const results = [];
-    //     res.map((item) => item.data.results.forEach((movie) => results.push(movie)));
-    //     commit('SET_TOP_RATED_MOVIES', results);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     commit('ERROR');
-    //   });
   },
-  fetchSingleMovie({ commit, state }, id, loadingBar) {
-    if (loadingBar) {
-      commit('LOADING');
-    }
+  async fetchSingleMovie({ commit, state }, id) {
     if (id === state.movie.id) {
       return state.movie;
     }
-    return movieService
-      .getSingleMovie(id)
-      .then((res) => {
-        commit('SET_MOVIE', res.data.movie);
-        return res.data.movie;
-      })
-      .catch((err) => {
-        console.log(err);
-        commit('ERROR');
-      });
+    try {
+      const result = await movieService.getSingleMovie(id);
+      const { movie } = result.data;
+      commit('SET_MOVIE', movie);
+    } catch (err) {
+      console.log(err);
+      commit('ERROR');
+    }
   },
   async fetchNowPlaying({ commit }, pageNum = 1) {
     try {
@@ -133,6 +109,9 @@ const getters = {
   },
   upcomingMovies(state) {
     return state.upcoming;
+  },
+  singleMovie(state) {
+    return state.movie;
   },
   loadingMovies(state) {
     return state.loading;

@@ -38,19 +38,19 @@ export default {
   },
   data() {
     return {
-      title: 'Top Rated Series',
+      title: 'On Air Series',
       page: 1,
     };
   },
   watch: {
     async page(val) {
-      await this.fetchTopRatedSeries(val);
+      await this.fetchOnAirSeries(val);
       this.toTop();
     },
   },
   methods: {
     ...mapActions({
-      fetchTopRatedSeries: 'series/fetchTopRatedSeries',
+      fetchOnAirSeries: 'series/fetchOnAirSeries',
     }),
     toTop() {
       return this.$vuetify.goTo(0, {

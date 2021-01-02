@@ -7,8 +7,8 @@ export default {
   getTopRatedSeries(pageNum) {
     return apiClient.get(`/series/top-rated?page=${pageNum}`);
   },
-  getLatestSeries(pageNum) {
-    return apiClient.get(`/series/latest?page=${pageNum}`);
+  getOnAirSeries(pageNum) {
+    return apiClient.get(`/series/on-air?page=${pageNum}`);
   },
   getSingleSeries(seriesId) {
     return apiClient.get(`/series/${seriesId}`);
