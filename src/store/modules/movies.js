@@ -8,6 +8,7 @@ const state = {
   popular: [],
   upcoming: [],
   movie: {},
+  searchResult: [],
   loading: false,
   error: false,
 };
@@ -31,6 +32,12 @@ const mutations = {
     state.movie = movie;
     state.loading = false;
     state.error = false;
+  },
+  SET_SEARCH_RESULT(state, movies) {
+    state.searchResult = movies;
+  },
+  RESET_SEARCH_RESULT(state) {
+    state.searchResult = [];
   },
   LOADING(state) {
     state.loading = true;
@@ -95,6 +102,16 @@ const actions = {
       commit('ERROR');
     }
   },
+  async fetchSearchQuery({ commit }, searchQuery) {
+    try {
+      const results = await movieService.searchMovies(searchQuery);
+      const { movies } = results.data;
+      commit('RESET_SEARCH_RESULT');
+      commit('SET_SEARCH_RESULT', movies);
+    } catch (err) {
+      console.error(err);
+    }
+  },
 };
 
 const getters = {
@@ -109,6 +126,9 @@ const getters = {
   },
   upcomingMovies(state) {
     return state.upcoming;
+  },
+  searchResult(state) {
+    return state.searchResult;
   },
   singleMovie(state) {
     return state.movie;

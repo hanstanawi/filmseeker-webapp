@@ -16,7 +16,7 @@
           <v-row justify="center">
             <img
               class="movie-img"
-              :src="movie.details.poster_path"
+              :src="movie.details.poster_path ? movie.details.poster_path : ''"
             />
           </v-row>
         </v-col>
@@ -75,7 +75,7 @@
           <v-btn
             outlined
             color="black"
-            @click="addMovie(movie)"
+            @click.prevent="addMovieToWatchlist"
             v-if="!checkRecord"
             class="add-button"
           >
@@ -86,7 +86,7 @@
             outlined
             color="red darken-4"
             class="remove-button"
-            @click="removeMovie(movie)"
+            @click.prevent="removeMovie(movie.details.id)"
             v-else
           >
             <v-icon color="red darken-4" class="mx-1">mdi-delete</v-icon>
@@ -98,12 +98,12 @@
       <!-- Loading Bar -->
       <v-row
         v-if="loading"
-        class="justify-center"
+        justify="center"
       >
         <v-col
           cols="12"
           md="6"
-          class="align-center"
+          align="center"
         >
           <v-progress-circular
             class="loading-bar"
@@ -136,7 +136,7 @@ export default {
   name: 'MovieDetails',
   props: {
     id: {
-      type: Number,
+      type: Number || String,
       required: true,
     },
   },
@@ -152,7 +152,8 @@ export default {
       movie: 'movies/singleMovie',
     }),
     checkRecord() {
-      const record = this.watchlist.find((movie) => movie.id === this.movie.id);
+      // eslint-disable-next-line eqeqeq
+      const record = this.watchlist.find((movie) => movie.id == this.movie.details.id.toString());
       return !!record;
     },
     movieReleaseDate() {
@@ -170,6 +171,18 @@ export default {
       removeMovie: 'watchlist/removeMovie',
       fetchSingleMovie: 'movies/fetchSingleMovie',
     }),
+    async addMovieToWatchlist() {
+      const movieItem = {
+        id: this.movie.details.id,
+        title: this.movie.details.title,
+        overview: this.movie.details.overview,
+        release_date: this.movie.details.release_date,
+        vote_average: this.movie.details.vote_average,
+        poster_path: this.movie.details.poster_path,
+        isMovie: true,
+      };
+      await this.addMovie(movieItem);
+    },
   },
 };
 </script>
@@ -194,9 +207,7 @@ export default {
 }
 
 .loading-bar {
-  margin-top: 10px;
-  top: 20%;
-  left: 37%;
+  transform: translate(0, 250%);
 }
 
 .error-handler {

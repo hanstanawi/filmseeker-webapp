@@ -16,7 +16,7 @@
           <v-row justify="center">
             <img
               class="movie-img"
-              :src="series.details.poster_path"
+              :src="series.details.poster_path ? series.details.poster_path : ''"
             />
           </v-row>
         </v-col>
@@ -75,7 +75,7 @@
           <v-btn
             outlined
             color="black"
-            @click="addMovie(series)"
+            @click="addSeriesToWatchlist"
             v-if="!checkRecord"
             class="add-button"
           >
@@ -86,7 +86,7 @@
             outlined
             color="red darken-4"
             class="remove-button"
-            @click="removeMovie(series)"
+            @click.prevent="removeMovie(series.details.id)"
             v-else
           >
             <v-icon color="red darken-4" class="mx-1">mdi-delete</v-icon>
@@ -98,12 +98,12 @@
       <!-- Loading Bar -->
       <v-row
         v-if="loading"
-        class="justify-center"
+        justify="center"
       >
         <v-col
           cols="12"
           md="6"
-          class="align-center"
+          align="center"
         >
           <v-progress-circular
             class="loading-bar"
@@ -136,7 +136,7 @@ export default {
   name: 'SeriesDetails',
   props: {
     id: {
-      type: Number,
+      type: Number || String,
       required: true,
     },
   },
@@ -152,7 +152,8 @@ export default {
       series: 'series/singleSeries',
     }),
     checkRecord() {
-      const record = this.watchlist.find((item) => item.id === this.series.id);
+      // eslint-disable-next-line eqeqeq
+      const record = this.watchlist.find((item) => item.id == this.series.details.id.toString());
       return !!record;
     },
     seriesReleaseDate() {
@@ -170,6 +171,18 @@ export default {
       removeMovie: 'watchlist/removeMovie',
       fetchSingleSeries: 'series/fetchSingleSeries',
     }),
+    async addSeriesToWatchlist() {
+      const seriesItem = {
+        id: this.series.details.id,
+        title: this.series.details.name,
+        overview: this.series.details.overview,
+        release_date: this.series.details.first_air_date,
+        vote_average: this.series.details.vote_average,
+        poster_path: this.series.details.poster_path,
+        isMovie: false,
+      };
+      await this.addMovie(seriesItem);
+    },
   },
 };
 </script>
@@ -194,9 +207,7 @@ export default {
 }
 
 .loading-bar {
-  margin-top: 10px;
-  top: 20%;
-  left: 37%;
+  transform: translate(0, 250%);
 }
 
 .error-handler {

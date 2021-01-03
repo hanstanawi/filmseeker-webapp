@@ -16,4 +16,7 @@ export default {
   getSingleMovie(movieId) {
     return apiClient.get(`/movies/${movieId}`);
   },
+  searchMovies(searchQuery) {
+    return apiClient.get(`/movies/search?query=${searchQuery}`);
+  },
 };

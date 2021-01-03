@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import store from '../store/index';
 
 Vue.use(VueRouter);
 
@@ -24,40 +23,21 @@ const routes = [
     path: '/watchlist',
     name: 'Watchlist',
     component: () => import(/* webpackChunkName: "watchlist" */ '../views/Watchlist.vue'),
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: '/movie/:id',
     name: 'MovieDetails',
     component: () => import(/* webpackChunkName: "movie-details" */ '../views/MovieDetails.vue'),
     props: true,
-    async beforeEnter(routeTo, routeFrom, next) {
-      try {
-        const movie = await store.dispatch('movies/fetchSingleMovie', routeTo.params.id);
-        // eslint-disable-next-line no-param-reassign
-        routeTo.params.movie = movie;
-        next();
-      } catch (err) {
-        console.log(err);
-        store.commit('ERROR');
-      }
-    },
   },
   {
     path: '/series/:id',
     name: 'SeriesDetails',
     component: () => import(/* webpackChunkName: "movie-details" */ '../components/series/SeriesDetails.vue'),
     props: true,
-    // async beforeEnter(routeTo, routeFrom, next) {
-    //   try {
-    //     const movie = await store.dispatch('movies/fetchSingleMovie', routeTo.params.id);
-    //     // eslint-disable-next-line no-param-reassign
-    //     routeTo.params.movie = movie;
-    //     next();
-    //   } catch (err) {
-    //     console.log(err);
-    //     store.commit('ERROR');
-    //   }
-    // },
   },
   {
     path: '/login',
@@ -79,6 +59,15 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const loggedIn = localStorage.getItem('token');
+
+  if (to.matched.some((record) => record.meta.requiresAuth) && !loggedIn) {
+    next('/');
+  }
+  next();
 });
 
 export default router;

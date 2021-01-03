@@ -2,8 +2,8 @@
   <div class="watchlist">
     <v-container class="my-5 pa-5">
     <template v-if="watchlist.length > 0">
-    <h1 class="title font-weight-bold">Your Watchlist</h1>
-    <!-- Sort buttons -->
+      <h1 class="title font-weight-bold">Your Watchlist</h1>
+      <!-- Sort buttons -->
      <v-row class="mb-3">
       <v-tooltip top>
         <template v-slot:activator="{ on }">
@@ -26,46 +26,58 @@
     </v-row>
 
     <!-- Movie Watchlist -->
-
-     <v-card flat v-for="(movie, index) in watchlist" :key="movie.id">
+      <v-card flat v-for="(item, index) in watchlist" :key="item.id">
        <v-row class="pa-3 project">
 
-         <!-- Movie Poster -->
+         <!-- Item Poster -->
          <v-col cols="12" sm="4" md="2" class="justify-start">
            <v-avatar class="ma-3" size="180" tile>
-              <v-img contain :src="moviePoster + movie.poster_path"></v-img>
+              <v-img contain :src="item.poster_path"></v-img>
             </v-avatar>
          </v-col>
 
-         <!-- Movie Info -->
+         <!-- Item Info -->
          <v-col cols="12" sm="8">
           <router-link
           class="title"
           tag="p"
-          :to="{ name: 'MovieDetails', params: { id: movie.id } }">
-            <div class="title font-weight-bold mb-2">{{ index + 1 }}. {{ movie.title }}</div>
+          :to="{
+            name: item.isMovie ? 'MovieDetails' : 'SeriesDetails',
+            params: { id: item.id }
+          }">
+            <div class="title font-weight-bold mb-2">
+              {{ index + 1 }}. {{ item.title }}
+            </div>
           </router-link>
           <div>
              <span class="font-weight-bold">Rating: </span>
              <span>
                <v-icon color="amber">mdi-star</v-icon>
              </span>
-             {{ movie.vote_average }}
+             {{ item.vote_average }}
           </div>
           <div>
              <span class="font-weight-bold">Release Date: </span>
-             {{ movie.release_date }}
+             {{ item.release_date }}
           </div>
            <div class="plot">
              <span class="font-weight-bold">Synopsis: </span>
-             {{ movie.overview }}
+             {{ item.overview }}
             </div>
          </v-col>
 
          <!-- Remove Action -->
-         <v-col cols="12" md="2" class="justify-center align-center">
+         <v-col
+          cols="12"
+          md="2"
+          class="justify-center align-center"
+        >
            <div class="text-right">
-            <v-btn outlined color="red darken-1" @click="removeMovie(movie)" class="removeButton">
+            <v-btn
+              outlined
+              color="red darken-1"
+              @click="removeMovie(item.id)"
+              class="removeButton">
               <v-icon color="red darken-1">mdi-delete</v-icon>
             </v-btn>
            </div>
@@ -75,8 +87,8 @@
      </v-card>
      </template>
 
-    <!-- No Item -->
-     <v-row v-else class="justify-center">
+      <!-- No Item -->
+      <v-row v-else class="justify-center">
        <v-col cols="12" md="6" class="align-center">
          <p
          class="no-movie headline font-weight-medium">
@@ -89,20 +101,30 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'Watchlist',
+  data() {
+    return {
+      loading: false,
+    };
+  },
   computed: {
     ...mapGetters({
       watchlist: 'watchlist/watchlist',
-      moviePoster: 'movies/moviePoster',
     }),
   },
+  async mounted() {
+    this.loading = true;
+    await this.fetchWatchlistData();
+    this.loading = false;
+  },
   methods: {
-    removeMovie(movie) {
-      return this.$store.dispatch('watchlist/removeMovie', movie);
-    },
+    ...mapActions({
+      removeMovie: 'watchlist/removeMovie',
+      fetchWatchlistData: 'watchlist/fetchWatchlistData',
+    }),
     // Sorting logic
     sortAsc(prop) {
       this.watchlist.sort((a, b) => (a[prop] < b[prop] ? -1 : 1));

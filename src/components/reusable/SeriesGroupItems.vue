@@ -2,17 +2,17 @@
   <div>
     <v-slide-group
       v-model="model"
-      class="ml-5"
+      class="mx-5"
       active-class="success"
-      show-arrows
+      :show-arrows="true"
       center-active
     >
       <v-slide-item
-        v-for="item in movieItems"
+        v-for="item in seriesItems"
         :key="item.id"
       >
-        <movie-card
-          :movie="item"
+        <series-card
+          :series="item"
           :is-homepage="true"
         />
       </v-slide-item>
@@ -21,18 +21,18 @@
 </template>
 
 <script>
-import MovieCard from './MovieCard.vue';
+import SeriesCard from './SeriesCard.vue';
 
 export default {
-  name: 'MovieGroupItems',
+  name: 'SeriesGroupItems',
   props: {
-    movieItems: {
+    seriesItems: {
       type: Array,
       required: true,
     },
   },
   components: {
-    MovieCard,
+    SeriesCard,
   },
   data() {
     return {
@@ -43,5 +43,8 @@ export default {
 </script>
 
 <style>
+.v-slide-group:not(.v-slide-group--has-affixes) .v-slide-group__next {
+  display: flex;
+}
 
 </style>

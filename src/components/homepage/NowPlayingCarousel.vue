@@ -12,15 +12,30 @@
         v-for="(item) in slicedListArrays"
         :key="item.id"
       >
-        <v-img
-          :src="`${item.backdrop_path}`"
-        >
-        <v-row justify="end">
-          <v-col align="end">
-          {{ item.title }}
-          </v-col>
-        </v-row>
-        </v-img>
+        <div class="wrap">
+          <v-img
+            :src="`${item.backdrop_path}`"
+          >
+            <v-row class="text-overlay pr-0">
+              <v-col class="content">
+                <h4>Now Playing</h4>
+                <router-link
+                  :to="{ name: 'MovieDetails', params: { id: item.id } }"
+                  tag="h3"
+                >
+                  <h1 style="cursor: pointer">{{ item.title }}</h1>
+                </router-link>
+                <h5>
+                  Rating :
+                  <span>
+                    <v-icon small color="amber" class="pb-1">mdi-star</v-icon>
+                  </span>
+                  {{ item.vote_average }} | {{ item.original_language.toUpperCase() }}
+                </h5>
+              </v-col>
+            </v-row>
+          </v-img>
+        </div>
       </v-carousel-item>
     </v-carousel>
   </div>
@@ -43,6 +58,32 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.wrap {
+  position: relative;
+}
 
+.text-overlay {
+  position: absolute;
+  color: #fff;
+  top: 0;
+  left: 10px;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.8) 10%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+.content {
+  margin: 0;
+  position: absolute;
+  top: 60%;
+  left: 4%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  padding-left: 4rem;
+}
 </style>

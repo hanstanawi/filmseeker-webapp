@@ -27,16 +27,58 @@
       </v-toolbar-items>
       <v-spacer></v-spacer>
       <v-autocomplete
-        v-model="searchTerm"
+        v-model="search"
+        :search-input.sync="searchTerm"
+        :loading="loading"
+        :items="items"
         flat
         outlined
         dense
         class="mt-6 mr-5"
-        placeholder="Search Your Favorite Movies"
+        placeholder="Search FilmSeeker"
         prepend-inner-icon="mdi-movie-search"
         background-color="white"
         color="amber"
-      />
+      >
+        <template v-slot:no-data>
+          <v-list-item>
+            <v-list-item-title>
+              Search for your favorite
+              <strong>Movies</strong>
+            </v-list-item-title>
+          </v-list-item>
+       </template>
+       <template v-slot:selection="{ attr, on, item, selected }">
+        <v-chip
+          v-bind="attr"
+          :input-value="selected"
+          color="blue-grey"
+          class="white--text"
+          v-on="on"
+        >
+          <v-icon left>
+            mdi-bitcoin
+          </v-icon>
+          <span v-text="item.title"></span>
+        </v-chip>
+      </template>
+       <template v-slot:item="{ item }">
+        <v-list-item-avatar
+          color="indigo"
+          class="headline font-weight-light white--text"
+        >
+          {{ item.title }}
+        </v-list-item-avatar>
+        <v-list-item-content>
+          <v-list-item-title v-text="item.title"></v-list-item-title>
+          <v-list-item-subtitle v-text="item.vote_average"></v-list-item-subtitle>
+        </v-list-item-content>
+        <v-list-item-action>
+          <v-icon>mdi-bitcoin</v-icon>
+        </v-list-item-action>
+      </template>
+
+      </v-autocomplete>
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <!-- Watchlist Button -->
@@ -65,22 +107,9 @@
         </v-btn>
         <v-btn
           text
-          :to="'/signup'"
-          class="white--text"
-        >
-          <v-icon
-            left
-            small
-            color="amber"
-          >
-            mdi-account
-          </v-icon>
-          Signup
-        </v-btn>
-        <v-btn
-          text
           :to="'/login'"
           class="white--text"
+          v-if="!isAuth"
         >
           <v-icon
             left
@@ -90,6 +119,21 @@
             mdi-account
           </v-icon>
           Login
+        </v-btn>
+        <v-btn
+          text
+          class="white--text"
+          v-if="isAuth"
+          @click="logout"
+        >
+          <v-icon
+            left
+            small
+            color="amber"
+          >
+            mdi-logout
+          </v-icon>
+          Logout
         </v-btn>
       </v-toolbar-items>
     </v-app-bar>
@@ -162,7 +206,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'Navbar',
@@ -221,6 +265,8 @@ export default {
       ],
       openDrawer: false,
       searchTerm: '',
+      loading: false,
+      search: null,
     };
   },
   watch: {
@@ -242,10 +288,9 @@ export default {
   computed: {
     ...mapGetters({
       listLength: 'watchlist/listLength',
+      items: 'movies/searchResult',
+      isAuth: 'auth/loggedIn',
     }),
-    isAuth() {
-      return false;
-    },
     isMoviesPage() {
       return this.$route.path.includes('movies');
     },
@@ -254,6 +299,10 @@ export default {
     },
   },
   methods: {
+    ...mapActions({
+      fetchSearchQuery: 'movies/fetchSearchQuery',
+      logout: 'auth/logout',
+    }),
     getLogoUrl() {
       // eslint-disable-next-line global-require
       return require('../../assets/logo_white.png');

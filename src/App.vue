@@ -10,7 +10,9 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import Navbar from '@/components/layout/Navbar.vue';
+import apiClient from '@/api/axios';
 
 export default {
   name: 'App',
@@ -19,6 +21,33 @@ export default {
   },
   components: {
     Navbar,
+  },
+  async created() {
+    const userId = localStorage.getItem('userId');
+    const token = localStorage.getItem('token');
+    console.log(userId, typeof userId);
+    if (userId && token) {
+      const userData = {
+        userId,
+        token,
+      };
+      this.$store.commit('auth/SET_USER_DATA', userData);
+      await this.fetchWatchlistData();
+    }
+    apiClient.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response.status === 401) {
+          this.$store.dispatch('auth/logout');
+        }
+        return Promise.reject(error);
+      },
+    );
+  },
+  methods: {
+    ...mapActions({
+      fetchWatchlistData: 'watchlist/fetchWatchlistData',
+    }),
   },
 };
 </script>
