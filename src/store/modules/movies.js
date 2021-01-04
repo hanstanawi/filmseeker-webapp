@@ -9,7 +9,6 @@ const state = {
   upcoming: [],
   movie: {},
   searchResult: [],
-  loading: false,
   error: false,
 };
 
@@ -38,9 +37,6 @@ const mutations = {
   },
   RESET_SEARCH_RESULT(state) {
     state.searchResult = [];
-  },
-  LOADING(state) {
-    state.loading = true;
   },
   ERROR(state) {
     state.error = true;
@@ -132,9 +128,6 @@ const getters = {
   },
   singleMovie(state) {
     return state.movie;
-  },
-  loadingMovies(state) {
-    return state.loading;
   },
   errorHandler(state) {
     return state.error;

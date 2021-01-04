@@ -13,4 +13,7 @@ export default {
   getSingleSeries(seriesId) {
     return apiClient.get(`/series/${seriesId}`);
   },
+  searchSeries(searchQuery) {
+    return apiClient.get(`/series/search?query=${searchQuery}`);
+  },
 };

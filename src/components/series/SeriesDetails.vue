@@ -16,7 +16,7 @@
           <v-row justify="center">
             <img
               class="movie-img"
-              :src="series.details.poster_path ? series.details.poster_path : ''"
+              :src="series.details.poster_path ? series.details.poster_path : null"
             />
           </v-row>
         </v-col>

@@ -25,60 +25,57 @@
           TV Series
         </v-btn>
       </v-toolbar-items>
-      <v-spacer></v-spacer>
-      <v-autocomplete
-        v-model="search"
-        :search-input.sync="searchTerm"
-        :loading="loading"
-        :items="items"
+      <v-spacer/>
+      <!-- SEARCH BAR -->
+      <v-text-field
+        v-if="isMovieSearch"
+        v-model="searchTerm"
         flat
         outlined
         dense
-        class="mt-6 mr-5"
-        placeholder="Search FilmSeeker"
-        prepend-inner-icon="mdi-movie-search"
+        class="mt-6"
+        placeholder="Search Your Favorite Movies"
+        prepend-inner-icon="mdi-movie"
         background-color="white"
+        @click:prepend-inner="isMovieSearch = false; searchTerm = null"
+        clearable
         color="amber"
       >
-        <template v-slot:no-data>
-          <v-list-item>
-            <v-list-item-title>
-              Search for your favorite
-              <strong>Movies</strong>
-            </v-list-item-title>
-          </v-list-item>
-       </template>
-       <template v-slot:selection="{ attr, on, item, selected }">
-        <v-chip
-          v-bind="attr"
-          :input-value="selected"
-          color="blue-grey"
-          class="white--text"
-          v-on="on"
-        >
-          <v-icon left>
-            mdi-bitcoin
-          </v-icon>
-          <span v-text="item.title"></span>
-        </v-chip>
-      </template>
-       <template v-slot:item="{ item }">
-        <v-list-item-avatar
-          color="indigo"
-          class="headline font-weight-light white--text"
-        >
-          {{ item.title }}
-        </v-list-item-avatar>
-        <v-list-item-content>
-          <v-list-item-title v-text="item.title"></v-list-item-title>
-          <v-list-item-subtitle v-text="item.vote_average"></v-list-item-subtitle>
-        </v-list-item-content>
-        <v-list-item-action>
-          <v-icon>mdi-bitcoin</v-icon>
-        </v-list-item-action>
-      </template>
-
-      </v-autocomplete>
+        <template v-slot:append-outer>
+          <router-link
+            :to="{ name: 'MoviesSearch', params: { query: searchTerm } }"
+            tag="button"
+          >
+            <v-icon color="amber">
+              mdi-magnify
+            </v-icon>
+          </router-link>
+        </template>
+      </v-text-field>
+      <v-text-field
+        v-if="!isMovieSearch"
+        v-model="searchTerm"
+        flat
+        outlined
+        dense
+        class="mt-6"
+        placeholder="Search Your Favorite Series"
+        prepend-inner-icon="mdi-television-classic"
+        background-color="white"
+        @click:prepend-inner="isMovieSearch = true; searchTerm = null"
+        color="amber"
+      >
+        <template v-slot:append-outer>
+          <router-link
+            :to="{ name: 'SeriesSearch', params: { query: searchTerm } }"
+            tag="button"
+          >
+            <v-icon color="amber">
+              mdi-magnify
+            </v-icon>
+          </router-link>
+        </template>
+      </v-text-field>
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <!-- Watchlist Button -->
@@ -264,9 +261,9 @@ export default {
         },
       ],
       openDrawer: false,
-      searchTerm: '',
+      searchTerm: null,
       loading: false,
-      search: null,
+      isMovieSearch: true,
     };
   },
   watch: {
@@ -288,7 +285,6 @@ export default {
   computed: {
     ...mapGetters({
       listLength: 'watchlist/listLength',
-      items: 'movies/searchResult',
       isAuth: 'auth/loggedIn',
     }),
     isMoviesPage() {

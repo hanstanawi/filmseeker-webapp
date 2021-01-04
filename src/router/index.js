@@ -16,8 +16,20 @@ const routes = [
   },
   {
     path: '/series/:view?',
-    name: 'TV Series',
+    name: 'Series',
     component: () => import(/* webpackChunkName: "movies" */ '../views/TVSeries.vue'),
+  },
+  {
+    path: '/movies/search/:query?',
+    name: 'MoviesSearch',
+    component: () => import(/* webpackChunkName: "movies" */ '../components/movies/SearchResult.vue'),
+    props: true,
+  },
+  {
+    path: '/series/search/:query?',
+    name: 'SeriesSearch',
+    component: () => import(/* webpackChunkName: "movies" */ '../components/series/SearchResult.vue'),
+    props: true,
   },
   {
     path: '/watchlist',

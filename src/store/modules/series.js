@@ -6,6 +6,7 @@ const state = {
   popular: [],
   topRated: [],
   nowAiring: [],
+  searchResult: [],
   series: {},
 };
 
@@ -25,6 +26,9 @@ const getters = {
   singleSeries(state) {
     return state.series;
   },
+  searchResult(state) {
+    return state.searchResult;
+  },
 };
 
 const mutations = {
@@ -39,6 +43,12 @@ const mutations = {
   },
   SET_SINGLE_SERIES(state, series) {
     state.series = series;
+  },
+  SET_SEARCH_RESULT(state, series) {
+    state.searchResult = series;
+  },
+  RESET_SEARCH_RESULT(state) {
+    state.searchResult = [];
   },
 };
 
@@ -75,6 +85,16 @@ const actions = {
       const result = await seriesAPI.getSingleSeries(seriesId);
       const { series } = result.data;
       commit('SET_SINGLE_SERIES', series);
+    } catch (err) {
+      console.error(err);
+    }
+  },
+  async fetchSearchQuery({ commit }, searchQuery) {
+    try {
+      const results = await seriesAPI.searchSeries(searchQuery);
+      const { series } = results.data;
+      commit('RESET_SEARCH_RESULT');
+      commit('SET_SEARCH_RESULT', series);
     } catch (err) {
       console.error(err);
     }
