@@ -33,11 +33,11 @@
                     <v-btn
                       :class="{ 'show-btns': hover }"
                       color="white"
-                      text
+                      icon
                     >
                       <v-icon
                         :class="{ 'show-btns': hover }"
-                        color="amber"
+                        color="white"
                       >
                         mdi-plus
                       </v-icon>
@@ -47,11 +47,11 @@
                     <v-btn
                       :class="{ 'show-btns': hover }"
                       color="white"
-                      text
+                      icon
                     >
                       <v-icon
                         :class="{ 'show-btns': hover }"
-                        color="transparent"
+                        color="white"
                       >
                         mdi-star
                       </v-icon>
@@ -82,11 +82,11 @@
                   <v-btn
                     :class="{ 'show-btns': hover }"
                     color="white"
-                    text
+                    icon
                   >
                     <v-icon
                       :class="{ 'show-btns': hover }"
-                      color="amber"
+                      color="white"
                     >
                       mdi-plus
                     </v-icon>
@@ -96,7 +96,7 @@
                   <v-btn
                     :class="{ 'show-btns': hover }"
                     color="white"
-                    text
+                    icon
                   >
                     <v-icon
                       :class="{ 'show-btns': hover }"
@@ -177,7 +177,7 @@ p .title:hover {
 
 .overlay {
   transition: filter 0.4s ease-in-out;
-  filter: brightness(50%);
+  filter: brightness(75%);
 }
 
 .overlay:not(.on-hover) {
@@ -194,7 +194,7 @@ p .title:hover {
 }
 
 .show-btns {
-  color: #FFEB3B !important;
+  color:white !important;
 }
 
 </style>

@@ -7,8 +7,8 @@ export default {
   addReview(item) {
     return apiClient.post('/reviews', item);
   },
-  updateReview(item) {
-    return apiClient.put('/reviews', item);
+  updateReview(reviewId, item) {
+    return apiClient.put(`/reviews/${reviewId}`, item);
   },
   deleteReview(itemId) {
     return apiClient.delete(`/reviews/${itemId}`);

@@ -28,6 +28,14 @@ const routes = [
     },
   },
   {
+    path: '/reviews',
+    name: 'Reviews',
+    component: () => import(/* webpackChunkName: "watchlist" */ '../components/reviews/UserReviews.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
     path: '/movie/:id',
     name: 'MovieDetails',
     component: () => import(/* webpackChunkName: "movie-details" */ '../views/MovieDetails.vue'),

@@ -136,7 +136,7 @@ export default {
   name: 'SeriesDetails',
   props: {
     id: {
-      type: Number || String,
+      type: [Number, String],
       required: true,
     },
   },

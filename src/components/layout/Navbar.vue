@@ -292,7 +292,7 @@ export default {
       isAuth: 'auth/loggedIn',
     }),
     isMoviesPage() {
-      return this.$route.path.includes('movies');
+      return this.$route.path.includes('movie');
     },
     isSeriesPage() {
       return this.$route.path.includes('series');

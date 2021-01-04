@@ -25,7 +25,6 @@ export default {
   async created() {
     const userId = localStorage.getItem('userId');
     const token = localStorage.getItem('token');
-    console.log(userId, typeof userId);
     if (userId && token) {
       const userData = {
         userId,

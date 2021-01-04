@@ -4,6 +4,7 @@
       <v-row
         justify="center"
         v-if="!loading"
+        class="mt-8"
       >
         <!-- Poster -->
         <v-col
@@ -136,7 +137,7 @@ export default {
   name: 'MovieDetails',
   props: {
     id: {
-      type: Number || String,
+      type: [Number, String],
       required: true,
     },
   },
@@ -160,7 +161,7 @@ export default {
       return this.movie.details.release_date.slice(0, 4);
     },
   },
-  async mounted() {
+  async created() {
     this.loading = true;
     await this.fetchSingleMovie(this.id);
     this.loading = false;
