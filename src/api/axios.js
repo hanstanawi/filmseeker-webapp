@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: process.env.VUE_APP_TMDB_URL,
+  baseURL: process.env.VUE_APP_FILMSEEKER_API,
   headers: {
     Accept: 'application/json',
   },

@@ -44,7 +44,7 @@
                       placeholder="Password"
                       outlined
                       dense
-                      :rules="[passwordRules]"
+                      :rules="passwordRules"
                     />
                   </v-col>
                 </v-row>

@@ -41,7 +41,7 @@
         clearable
         color="amber"
       >
-        <template v-slot:append-outer>
+        <template v-slot:append-outer v-if="searchTerm">
           <router-link
             :to="{ name: 'MoviesSearch', params: { query: searchTerm } }"
             tag="button"
@@ -65,7 +65,7 @@
         @click:prepend-inner="isMovieSearch = true; searchTerm = null"
         color="amber"
       >
-        <template v-slot:append-outer>
+        <template v-slot:append-outer v-if="searchTerm">
           <router-link
             :to="{ name: 'SeriesSearch', params: { query: searchTerm } }"
             tag="button"
@@ -291,7 +291,7 @@ export default {
       return this.$route.path.includes('movie');
     },
     isSeriesPage() {
-      return this.$route.path.includes('series');
+      return this.$route.path.includes('serie');
     },
   },
   methods: {

@@ -72,26 +72,43 @@
           <!-- Plot -->
           <p class="plot">{{ series.details.overview }}</p>
           <!-- Action Buttons -->
-          <v-btn
-            outlined
-            color="black"
-            @click="addSeriesToWatchlist"
-            v-if="!checkRecord"
-            class="add-button"
-          >
-            <v-icon color="black" class="mx-1">mdi-plus</v-icon>
-            Add to Watchlist
-          </v-btn>
-          <v-btn
-            outlined
-            color="red darken-4"
-            class="remove-button"
-            @click.prevent="removeMovie(series.details.id)"
-            v-else
-          >
-            <v-icon color="red darken-4" class="mx-1">mdi-delete</v-icon>
-            Remove From Watchlist
-          </v-btn>
+          <v-row>
+            <v-col cols="4">
+              <v-btn
+                outlined
+                color="black"
+                @click="addSeriesToWatchlist"
+                v-if="!checkRecord"
+                class="add-button"
+              >
+                <v-icon color="black" class="mx-1">mdi-plus</v-icon>
+                Add to Watchlist
+              </v-btn>
+              <v-btn
+                outlined
+                color="red darken-4"
+                class="remove-button"
+                @click.prevent="removeMovie(series.details.id)"
+                v-else
+              >
+                <v-icon color="red darken-4" class="mx-1">mdi-delete</v-icon>
+                Remove From Watchlist
+              </v-btn>
+            </v-col>
+            <v-col cols="4">
+              <v-btn
+                tag="a"
+                color="amber"
+                :href="`https://www.youtube.com/results?search_query=${series.details.name} trailer`"
+                class="add-button"
+                target="_blank"
+              >
+                <v-icon color="black" class="mx-1">mdi-plus</v-icon>
+                Watch Trailer
+              </v-btn>
+            </v-col>
+          </v-row>
+
         </v-col>
       </v-row>
 
@@ -145,6 +162,13 @@ export default {
       loading: false,
     };
   },
+  watch: {
+    async id(val) {
+      this.loading = true;
+      await this.fetchSingleSeries(val);
+      this.loading = false;
+    },
+  },
   computed: {
     ...mapGetters({
       watchlist: 'watchlist/watchlist',
@@ -160,7 +184,7 @@ export default {
       return this.series.details.first_air_date.slice(0, 4);
     },
   },
-  async mounted() {
+  async created() {
     this.loading = true;
     await this.fetchSingleSeries(this.id);
     this.loading = false;

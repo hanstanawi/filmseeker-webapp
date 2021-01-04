@@ -54,7 +54,7 @@ const routes = [
     props: true,
   },
   {
-    path: '/series/:id',
+    path: '/serie/:id',
     name: 'SeriesDetails',
     component: () => import(/* webpackChunkName: "movie-details" */ '../components/series/SeriesDetails.vue'),
     props: true,
