@@ -10,6 +10,7 @@
       <v-slide-item
         v-for="item in seriesItems"
         :key="item.id"
+        class="py-5"
       >
         <series-card
           :series="item"

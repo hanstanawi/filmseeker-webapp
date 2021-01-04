@@ -1,117 +1,153 @@
 <template>
   <div>
     <v-container class="pa-5 mt-10">
-      <v-row
-        justify="center"
-        v-if="!loading"
-      >
-        <!-- Poster -->
-        <v-col
-          cols="12"
-          sm="5"
-          md="4"
-          xl="2"
-          class="px-0"
+      <div v-if="!loading">
+
+        <v-row
+          justify="center"
         >
-          <v-row justify="center">
-            <img
-              class="movie-img"
-              :src="series.details.poster_path ? series.details.poster_path : null"
+          <!-- Poster -->
+          <v-col
+            cols="12"
+            sm="5"
+            md="4"
+            xl="2"
+            class="px-0"
+          >
+            <v-row justify="center">
+              <img
+                class="movie-img"
+                :src="series.details.poster_path ? series.details.poster_path : null"
+              />
+            </v-row>
+          </v-col>
+
+          <!-- Content -->
+          <v-col
+            cols="12"
+            sm="7"
+            md="8"
+            xl="10"
+          >
+            <!-- Title  -->
+            <h1 class="display-1 font-weight-bold">
+              {{ series.details.name }} ({{ seriesReleaseDate }})
+            </h1>
+            <!-- Rating -->
+            <p class="title font-weight-black">
+              <span>
+                <v-icon color="amber darken-1">mdi-star</v-icon>
+              </span>
+              {{ series.details.vote_average }}
+            </p>
+            <!-- Genre -->
+            <v-row class="my-3 mr-0">
+              <v-chip
+                class="ma-2 d-flex-inline black--text"
+                color="amber darken-1"
+                v-for="genre in series.details.genres"
+                :key="genre.id"
+              >
+                {{ genre.name }}
+              </v-chip>
+            </v-row>
+            <!-- Info -->
+            <p>
+              <span class="font-weight-bold">Release Date:</span>
+              {{ series.details.first_air_date }}
+            </p>
+            <p>
+              <span class="font-weight-bold">Number of Seasons:</span>
+              {{ series.details.number_of_seasons }} Seasons
+            </p>
+            <p>
+              <span class="font-weight-bold">Episode Run Time:</span>
+              <span
+                v-for="(time, index) in series.details.episode_run_time"
+                :key="index"
+              >
+                {{ time }}
+              </span>
+              mins
+            </p>
+            <!-- Plot -->
+            <p class="plot">{{ series.details.overview }}</p>
+            <!-- Action Buttons -->
+            <v-row>
+              <v-col cols="4">
+                <v-btn
+                  outlined
+                  color="black"
+                  @click="addSeriesToWatchlist"
+                  v-if="!checkRecord"
+                  class="add-button"
+                >
+                  <v-icon color="black" class="mx-1">mdi-plus</v-icon>
+                  Add to Watchlist
+                </v-btn>
+                <v-btn
+                  outlined
+                  color="red darken-4"
+                  class="remove-button"
+                  @click.prevent="removeMovie(series.details.id)"
+                  v-else
+                >
+                  <v-icon color="red darken-4" class="mx-1">mdi-delete</v-icon>
+                  Remove From Watchlist
+                </v-btn>
+              </v-col>
+              <v-col cols="4">
+                <v-btn
+                  tag="a"
+                  color="amber"
+                  :href="`https://www.youtube.com/results?search_query=${series.details.name} trailer`"
+                  class="add-button"
+                  target="_blank"
+                >
+                  <v-icon color="black" class="mx-1">mdi-plus</v-icon>
+                  Watch Trailer
+                </v-btn>
+              </v-col>
+            </v-row>
+          </v-col>
+        </v-row>
+        <v-row
+          justify="center"
+          class="mt-15"
+        >
+          <v-col cols="12">
+            <div class="headline font-weight-bold ml-5">Cast</div>
+            <v-slide-group
+              v-model="model"
+              class="ml-5"
+              active-class="success"
+              show-arrows
+              center-active
+            >
+              <v-slide-item
+                v-for="cast in series.credits"
+                :key="cast.id"
+                class="py-3"
+              >
+                <cast-card
+                  :cast="cast"
+                />
+              </v-slide-item>
+            </v-slide-group>
+          </v-col>
+        </v-row>
+        <v-row
+          justify="center"
+          class="mt-8"
+        >
+          <v-col cols="12">
+            <div class="headline font-weight-bold ml-5">Recommended Movies</div>
+            <series-group-items
+              :series-items="series.recommended"
             />
-          </v-row>
-        </v-col>
-
-        <!-- Content -->
-        <v-col
-          cols="12"
-          sm="7"
-          md="8"
-          xl="10"
-        >
-          <!-- Title  -->
-          <h1 class="display-1 font-weight-bold">
-            {{ series.details.name }} ({{ seriesReleaseDate }})
-          </h1>
-          <!-- Rating -->
-          <p class="title font-weight-black">
-            <span>
-              <v-icon color="amber darken-1">mdi-star</v-icon>
-            </span>
-            {{ series.details.vote_average }}
-          </p>
-          <!-- Genre -->
-          <v-row class="my-3 mr-0">
-            <v-chip
-              class="ma-2 d-flex-inline black--text"
-              color="amber darken-1"
-              v-for="genre in series.details.genres"
-              :key="genre.id"
-            >
-              {{ genre.name }}
-            </v-chip>
-          </v-row>
-          <!-- Info -->
-          <p>
-            <span class="font-weight-bold">Release Date:</span>
-            {{ series.details.first_air_date }}
-          </p>
-          <p>
-            <span class="font-weight-bold">Number of Seasons:</span>
-            {{ series.details.number_of_seasons }} Seasons
-          </p>
-          <p>
-            <span class="font-weight-bold">Episode Run Time:</span>
-            <span
-              v-for="(time, index) in series.details.episode_run_time"
-              :key="index"
-            >
-              {{ time }}
-            </span>
-            mins
-          </p>
-          <!-- Plot -->
-          <p class="plot">{{ series.details.overview }}</p>
-          <!-- Action Buttons -->
-          <v-row>
-            <v-col cols="4">
-              <v-btn
-                outlined
-                color="black"
-                @click="addSeriesToWatchlist"
-                v-if="!checkRecord"
-                class="add-button"
-              >
-                <v-icon color="black" class="mx-1">mdi-plus</v-icon>
-                Add to Watchlist
-              </v-btn>
-              <v-btn
-                outlined
-                color="red darken-4"
-                class="remove-button"
-                @click.prevent="removeMovie(series.details.id)"
-                v-else
-              >
-                <v-icon color="red darken-4" class="mx-1">mdi-delete</v-icon>
-                Remove From Watchlist
-              </v-btn>
-            </v-col>
-            <v-col cols="4">
-              <v-btn
-                tag="a"
-                color="amber"
-                :href="`https://www.youtube.com/results?search_query=${series.details.name} trailer`"
-                class="add-button"
-                target="_blank"
-              >
-                <v-icon color="black" class="mx-1">mdi-plus</v-icon>
-                Watch Trailer
-              </v-btn>
-            </v-col>
-          </v-row>
-
-        </v-col>
-      </v-row>
-
+          </v-col>
+        </v-row>
+      </div>
       <!-- Loading Bar -->
       <v-row
         v-if="loading"
@@ -148,6 +184,8 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import SeriesGroupItems from '../reusable/SeriesGroupItems.vue';
+import CastCard from '../reusable/CastCard.vue';
 
 export default {
   name: 'SeriesDetails',
@@ -156,6 +194,10 @@ export default {
       type: [Number, String],
       required: true,
     },
+  },
+  components: {
+    SeriesGroupItems,
+    CastCard,
   },
   data() {
     return {

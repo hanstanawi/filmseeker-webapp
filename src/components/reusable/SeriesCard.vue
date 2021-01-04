@@ -118,7 +118,7 @@
         <!-- Movie Info -->
         <v-card-text
           class="ma-0 card-text"
-          v-if="!isHomepage"
+
         >
           <router-link
             class="title"
@@ -129,7 +129,7 @@
               {{ series.name }} ({{ seriesReleaseDate }})
             </span>
           </router-link>
-          <span class="subtitle-1 font-weight-black black--text">
+          <span class="subtitle-1 font-weight-black black--text" v-if="!isHomepage">
             <v-icon color="amber">mdi-star</v-icon>
             {{ series.vote_average }}
           </span>
@@ -175,7 +175,7 @@ p .title:hover {
 }
 
 .series-img {
-  height: 50vh;
+  height: 100%;
 }
 
 .overlay {

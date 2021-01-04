@@ -5,7 +5,7 @@
         :now-playing-movies="nowPlayingMovies"
       />
       <v-container fluid>
-        <v-row class="ml-5 mr-3 mt-7">
+        <v-row class="ml-5 mr-5 mt-5">
           <v-col cols="12">
             <div class="headline font-weight-bold ml-5">Popular Movies</div>
             <movie-group-items
@@ -13,7 +13,7 @@
             />
           </v-col>
         </v-row>
-        <v-row class="ml-5 mr-3 mt-7">
+        <v-row class="ml-5 mr-5 mt-5">
           <v-col cols="12" lg="12">
             <div class="headline font-weight-bold ml-5">Top Rated Movies</div>
             <movie-group-items
@@ -21,7 +21,7 @@
             />
           </v-col>
         </v-row>
-        <v-row class="ml-5 mr-3 mt-5">
+        <v-row class="ml-5 mr-5 mt-5">
           <v-col cols="12" lg="12">
             <div class="headline font-weight-bold ml-7">Popular Series</div>
             <series-group-items
@@ -29,7 +29,7 @@
             />
           </v-col>
         </v-row>
-        <v-row class="ml-5 mr-3 mt-5">
+        <v-row class="ml-5 mr-5 mt-5">
           <v-col cols="12" lg="12">
             <div class="headline font-weight-bold ml-7">Now Showing Series</div>
             <series-group-items

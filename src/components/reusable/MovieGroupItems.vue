@@ -10,6 +10,7 @@
       <v-slide-item
         v-for="item in movieItems"
         :key="item.id"
+        class="py-5"
       >
         <movie-card
           :movie="item"

@@ -1,100 +1,153 @@
 <template>
   <div class="movie-details">
     <v-container class="pa-5 mt-10">
-      <v-row
-        justify="center"
-        v-if="!loading"
-        class="mt-8"
-      >
-        <!-- Poster -->
-        <v-col
-          cols="12"
-          sm="5"
-          md="4"
-          xl="2"
-          class="px-0"
+      <div v-if="!loading">
+        <v-row
+          justify="center"
+          class="mt-8"
         >
-          <v-row justify="center">
-            <img
-              class="movie-img"
-              :src="movie.details.poster_path ? movie.details.poster_path : ''"
-            />
-          </v-row>
-        </v-col>
+          <!-- Poster -->
+          <v-col
+            cols="12"
+            sm="5"
+            md="4"
+            xl="2"
+            class="px-0"
+          >
+            <v-row justify="center">
+              <img
+                class="movie-img"
+                :src="movie.details.poster_path ? movie.details.poster_path : ''"
+              />
+            </v-row>
+          </v-col>
 
-        <!-- Content -->
-        <v-col
-          cols="12"
-          sm="7"
-          md="8"
-          xl="10"
+          <!-- Content -->
+          <v-col
+            cols="12"
+            sm="7"
+            md="8"
+            xl="10"
+          >
+            <!-- Title  -->
+            <h1 class="display-1 font-weight-bold">
+              {{ movie.details.title }} ({{ movieReleaseDate }})
+            </h1>
+            <!-- Rating -->
+            <p class="title font-weight-black">
+              <span>
+                <v-icon color="amber darken-1">mdi-star</v-icon>
+              </span>
+              {{ movie.details.vote_average }}
+            </p>
+            <!-- Genre -->
+            <v-row class="my-3 mr-0">
+              <v-chip
+                class="ma-2 d-flex-inline black--text"
+                color="amber darken-1"
+                v-for="genre in movie.details.genres"
+                :key="genre.id"
+              >
+                {{ genre.name }}
+              </v-chip>
+            </v-row>
+            <!-- Info -->
+            <p>
+              <span class="font-weight-bold">Release Date:</span>
+              {{ movie.details.release_date }}
+            </p>
+            <p>
+              <span class="font-weight-bold">Runtime:</span>
+              {{ movie.details.runtime }} mins
+            </p>
+            <p>
+              <span class="font-weight-bold">Language:</span>
+              <span
+                v-for="language in movie.details.spoken_languages"
+                :key="language.name"
+              >
+                {{ language.name }}
+                <span v-if="language.length > 0">,</span>
+              </span>
+            </p>
+            <!-- Plot -->
+            <p class="plot">{{ movie.details.overview }}</p>
+            <!-- Action Buttons -->
+            <v-row>
+              <v-col cols="4">
+                <v-btn
+                  outlined
+                  color="black"
+                  @click.prevent="addMovieToWatchlist"
+                  v-if="!checkRecord"
+                  class="add-button"
+                >
+                  <v-icon color="black" class="mx-1">mdi-plus</v-icon>
+                  Add to Watchlist
+                </v-btn>
+                <v-btn
+                  outlined
+                  color="red darken-4"
+                  class="remove-button"
+                  @click.prevent="removeMovie(movie.details.id)"
+                  v-else
+                >
+                  <v-icon color="red darken-4" class="mx-1">mdi-delete</v-icon>
+                  Remove From Watchlist
+                </v-btn>
+              </v-col>
+              <v-col cols="4">
+                <v-btn
+                  tag="a"
+                  color="amber"
+                  :href="`https://www.youtube.com/results?search_query=${movie.details.title} trailer`"
+                  class="add-button"
+                  target="_blank"
+                >
+                  <v-icon color="black" class="mx-1">mdi-plus</v-icon>
+                  Watch Trailer
+                </v-btn>
+              </v-col>
+            </v-row>
+          </v-col>
+        </v-row>
+        <v-row
+          justify="center"
+          class="mt-15"
         >
-          <!-- Title  -->
-          <h1 class="display-1 font-weight-bold">
-            {{ movie.details.title }} ({{ movieReleaseDate }})
-          </h1>
-          <!-- Rating -->
-          <p class="title font-weight-black">
-            <span>
-              <v-icon color="amber darken-1">mdi-star</v-icon>
-            </span>
-            {{ movie.details.vote_average }}
-          </p>
-          <!-- Genre -->
-          <v-row class="my-3 mr-0">
-            <v-chip
-              class="ma-2 d-flex-inline black--text"
-              color="amber darken-1"
-              v-for="genre in movie.details.genres"
-              :key="genre.id"
+          <v-col cols="12">
+            <div class="headline font-weight-bold ml-5">Cast</div>
+            <v-slide-group
+              v-model="model"
+              class="ml-5"
+              active-class="success"
+              show-arrows
+              center-active
             >
-              {{ genre.name }}
-            </v-chip>
-          </v-row>
-          <!-- Info -->
-          <p>
-            <span class="font-weight-bold">Release Date:</span>
-            {{ movie.details.release_date }}
-          </p>
-          <p>
-            <span class="font-weight-bold">Runtime:</span>
-            {{ movie.details.runtime }} mins
-          </p>
-          <p>
-            <span class="font-weight-bold">Language:</span>
-            <span
-              v-for="language in movie.details.spoken_languages"
-              :key="language.name"
-            >
-              {{ language.name }}
-              <span v-if="language.length > 0">,</span>
-            </span>
-          </p>
-          <!-- Plot -->
-          <p class="plot">{{ movie.details.overview }}</p>
-          <!-- Action Buttons -->
-          <v-btn
-            outlined
-            color="black"
-            @click.prevent="addMovieToWatchlist"
-            v-if="!checkRecord"
-            class="add-button"
-          >
-            <v-icon color="black" class="mx-1">mdi-plus</v-icon>
-            Add to Watchlist
-          </v-btn>
-          <v-btn
-            outlined
-            color="red darken-4"
-            class="remove-button"
-            @click.prevent="removeMovie(movie.details.id)"
-            v-else
-          >
-            <v-icon color="red darken-4" class="mx-1">mdi-delete</v-icon>
-            Remove From Watchlist
-          </v-btn>
-        </v-col>
-      </v-row>
+              <v-slide-item
+                v-for="cast in movie.credits"
+                :key="cast.id"
+                class="py-3"
+              >
+                <cast-card
+                  :cast="cast"
+                />
+              </v-slide-item>
+            </v-slide-group>
+          </v-col>
+        </v-row>
+        <v-row
+          justify="center"
+          class="mt-8"
+        >
+          <v-col cols="12">
+            <div class="headline font-weight-bold ml-5">Recommended Movies</div>
+            <movie-group-items
+              :movie-items="movie.recommended"
+            />
+          </v-col>
+        </v-row>
+      </div>
 
       <!-- Loading Bar -->
       <v-row
@@ -132,6 +185,8 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import CastCard from '../components/reusable/CastCard.vue';
+import MovieGroupItems from '../components/reusable/MovieGroupItems.vue';
 
 export default {
   name: 'MovieDetails',
@@ -141,10 +196,22 @@ export default {
       required: true,
     },
   },
+  components: {
+    CastCard,
+    MovieGroupItems,
+  },
   data() {
     return {
       loading: false,
+      model: null,
     };
+  },
+  watch: {
+    async id(val) {
+      this.loading = true;
+      await this.fetchSingleMovie(val);
+      this.loading = false;
+    },
   },
   computed: {
     ...mapGetters({
