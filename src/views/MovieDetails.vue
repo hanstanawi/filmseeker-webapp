@@ -11,7 +11,7 @@
             cols="12"
             sm="5"
             md="4"
-            xl="2"
+            xl="3"
             class="px-0"
           >
             <v-row justify="center">
@@ -27,7 +27,7 @@
             cols="12"
             sm="7"
             md="8"
-            xl="10"
+            xl="9"
           >
             <!-- Title  -->
             <h1 class="display-1 font-weight-bold">

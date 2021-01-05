@@ -141,7 +141,7 @@
           class="mt-8"
         >
           <v-col cols="12">
-            <div class="headline font-weight-bold ml-5">Recommended Movies</div>
+            <div class="headline font-weight-bold ml-5">Recommended Series</div>
             <series-group-items
               :series-items="series.recommended"
             />

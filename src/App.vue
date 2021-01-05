@@ -2,7 +2,10 @@
   <v-app>
     <Navbar />
     <v-main>
-      <transition name="slide" mode="out-in">
+      <transition
+        name="slide"
+        mode="out-in"
+      >
         <router-view></router-view>
       </transition>
     </v-main>
